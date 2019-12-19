@@ -70,7 +70,7 @@ align-content:stretch:交叉轴特有，适用于多行的flex容器，并且当
      &nbsp;&nbsp;display: grid;  
      &nbsp;&nbsp;grid-template-columns: 100px 100px 100px;  
      &nbsp;&nbsp;grid-template-rows: 100px 100px 100px;  
-}
+}  
 具体使用可参考阮一峰的教程:
 http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
 
