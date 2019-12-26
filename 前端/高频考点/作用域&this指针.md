@@ -127,3 +127,103 @@ function bar() {
 }
 bar();
 ````
+
+# this指针
+四种调用方式:  
+1.直接函数调用，this指针指向全局环境，即Window对象,例如：
+````
+var name='vicky'
+function sayName(name){
+    console.log(this.name);
+}
+sayName();   //this指向window对象，而因为在全局环境中定义了var name='vicky'；所以this.name输出：vicky
+window.sayName();  //sayName()效果等同于window.sayName()
+
+````
+2.对象函数调用，this指针指向调用函数的对象本身，例如：
+````
+var object={
+    'name':"vicky",
+    'sayName':function(){ console.log(this.name)}
+};
+object.sayName();   //this指针指向object对象，因此输出vicky
+````
+````
+var name='Bob';
+function sayName(){
+    console.log(this.name);
+}
+var object={'name':'vicky'};
+object.sayName=sayName;          //sayName没有写成sayName(),表示不是执行函数，而是将sayName的指针赋值给object.sayName
+object.sayName();               //由于对象函数调用方法，this指向对象本身，所以输出:'vicky'
+sayName();                     //由于全局环境调用sayName()等同于window.sayName();输出:'Bob'
+````
+3.构造函数调用，this指针指向新创建的对象,例如:
+````
+function object(name){
+    this.name=name；
+    console.log(this);      //由于this指向新创建的对象本身，输出：Object { name: "vikcy" }
+    console.log(this.name);  //输出:"vicky"
+}
+var myObject=new Object('vicky');  //this指向新创建的对象本身
+````
+4.间接函数调用，例如call、apply方法，还有个特殊的bind方法  
+4.1 **call（this指针要指向的对象，参数1，参数2,...）**
+call方法可以动态的设置函数体内的this指向，例如：
+````
+function Cat(age,name){
+    this.name='cat';
+    console.log(this);
+    console.log('cat: age:'+age+",name:"+name);
+}
+var cat=new Cat(4,'Bob');    //输出:Cat {name: "cat"}和cat: age:4,name:Bob
+Cat.call(this,3,'Tom');     //由于调用了call方法，输出：this指向了Window和cat: age:3,name:Tom
+````
+4.2 **apply(this指针要指向的对象,参数数组或arguments对象)**
+apply方法和call方法的作用相同，唯一不同的是call方法要将参数一一传入，而apply方法传入的是数组或者arguments对象。arguments对象包含了函数的所有参数。
+````
+function Cat(age,name){
+    this.name='cat';
+    console.log(this);
+    console.log('cat: age:'+age+",name:"+name);
+}
+var cat=new Cat(4,'Bob');    //输出:Cat {name: "cat"}和cat: age:4,name:Bob
+Cat.apply(this,[3,'Tom']);     //由于调用了apply方法，输出：this指向了Window和cat: age:3,name:Tom
+function getCat(age,name){
+    Cat.apply(this, arguments);    //arguments包含了函数的参数
+}
+getCat(5,"kitty");           //由于调用了apply方法，输出：this指向了Window和cat: age:5,name:kitty
+````
+4.3 **bind(this指针要指向的对象)**,bind这个方法会创建一个函数的实例，其this会被**绑定**到传给 bind()函数参数
+````
+window.color = "red"; 
+var o = { color: "blue" }; 
+function sayColor(){ 
+    console.log(this.color); 
+    
+} 
+var objectSayColor = sayColor.bind(o); 
+objectSayColor(); //由于调用了 sayColor.bind(o),bind函数返回的函数实例中的this直接绑定了o这个对象,所以即使在全局环境调用函数objectSayColor，也会输出："blue"
+window.objectSayColor();   //输出:"blue"
+````
+## new关键字拓展
+为什么构造函数调用的时候，this指针为什么指向创建对象的本身，new关键字到底做了什么？  
+其实在通过new关键词去调用构造函数创建对象的时候，经历了如下的过程：  
+1、创建新对象,继承构造函数的prototype  
+2、调用call()方法，接受参数并修改this的指向，指向这个新对象  
+3、执行构造函数，如果构造函数有返回对象，则这个对象会取代步骤1创建的新对象，如果构造函数没有返回值，则返回步骤1创建的对象。  
+用代码简单模拟上述过程:
+````
+var newObject=function(func){
+    var o={};  //创建一个新对象
+    o.__proto__=func.prototype;  //继承构造函数prototype
+    var k=func.call(o);         //调用call方法，修改this指向,指向这个新创建的对象
+    if(typeof k=== 'object'){
+        //如果构造函数有返回对象，则取代步骤1创建的对象，返回构造函数所返回的对象
+        return k;
+    }else{
+        //如果构造函数没有返回对象，则直接返回步骤1创建的对象
+        return o;
+    }
+}
+````
