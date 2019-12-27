@@ -49,3 +49,69 @@ promise.then((data)=>{
 * 如果返回的是undefined 不管当前是成功还是失败 都会走下一次的成功
 * catch是错误没有处理的情况下才会走
 * then中不写方法则值会穿透，传入下一个then中
+
+### catch方法
+reject的回调除了能通过then方法的第二个参数里面获得，更可以通过catch方法捕捉   
+区别在哪?在执行resolve的回调（也就是上面then中的第一个参数）时，如果抛出异常了（代码出错了），那么并不会报错卡死js，而是会进到这个catch方法中
+````
+promise.then((data)=>{
+    console.log(data);
+    console.log(10/0); //0不能作为整除分母，会报错
+}).catch((err)=>{
+    console.log(err); //catch方法却依然会执行，e并且会捕获异常
+})
+````
+### all的用法
+Promise的all方法提供了**并行执行异步操作**的能力，并且在所有异步操作执行完后才执行回调  
+适用场景:一些游戏类的素材比较多，打开网页时，预先加载需要用到的各种资源如图片、flash以及各种静态文件。可以等所有的都加载完后，我们再进行页面的初始化
+````
+Promise
+.all([runAsync1(), runAsync2(), runAsync3()])
+.then((results)=>{
+    console.log(results);
+}); //all方法接收一个数组参数，等三个异步操作执行完才会进入到then里面;all方法也会把三个异步操作返回的数据放进一个数组中传给then，就是上面的results
+````
+
+### race方法
+all方法的效果实际上是「谁跑的慢，以谁为准执行回调」，那么相对的就有另一个方法「谁跑的快，以谁为准执行回调」，这就是race方法
+````
+Promise
+.race([runAsync1(), runAsync2(), runAsync3()])
+.then((results)=>{
+    console.log(results);
+});
+````
+应用实例:
+````
+//请求某个图片资源
+function requestImg(){
+    var p = new Promise((resolve, reject)=>{
+        var img = new Image();
+        img.onload = function(){
+            resolve(img);
+        }
+        img.src = 'xxxxxx';
+    });
+    return p;
+}
+
+//延时函数，用于给请求计时
+function timeout(){
+    var p = new Promise((resolve, reject)=>{
+        setTimeout(function(){
+            reject('图片请求超时');
+        }, 5000);
+    });
+    return p;
+}
+
+Promise
+.race([requestImg(), timeout()])
+.then((results)=>{
+    console.log(results);
+})
+.catch((err)=>{
+    console.log(err);
+});
+````
+假设runAsync1是异步请求一张图片，runAsync2是一个延时5秒的操作，他俩儿赛跑，如果5秒内图片请求成功，就进入then方法，否则打印错误
