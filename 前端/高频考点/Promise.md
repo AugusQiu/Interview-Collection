@@ -58,7 +58,7 @@ promise.then((data)=>{
     console.log(data);
     console.log(10/0); //0不能作为整除分母，会报错
 }).catch((err)=>{
-    console.log(err); //catch方法却依然会执行，e并且会捕获异常
+    console.log(err); //catch方法却依然会执行，并且会捕获异常
 })
 ````
 ### all的用法
