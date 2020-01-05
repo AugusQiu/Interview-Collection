@@ -88,17 +88,17 @@ step3代表第一步、第二步和第三步一共延时了多久
 function doIt() {
     console.time("doIt");
     const time1 = 300;
-    step1(time1)
-        .then(time2 => {
-            return step2(time1, time2)
-                .then(time3 => [time1, time2, time3]);
+    step1(time1)  //time1:300
+        .then(time2 => {  //then捕获step1的resolve,所以time2:300
+            return step2(time1, time2) //time1:300,time2:300
+                .then(time3 => [time1, time2, time3]); //捕获step2的resolve,time3= time1+time2 = 600 
         })
-        .then(times => {
+        .then(times => {  //times:[300,300,600]
             const [time1, time2, time3] = times;
-            return step3(time1, time2, time3);
+            return step3(time1, time2, time3); 
         })
         .then(result => {
-            console.log(`result is ${result}`);
+            console.log(`result is ${result}`); //result:300+300+600=1200
             console.timeEnd("doIt");
         });
 }

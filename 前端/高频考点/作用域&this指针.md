@@ -200,8 +200,8 @@ window.color = "red";
 var o = { color: "blue" }; 
 function sayColor(){ 
     console.log(this.color); 
-    
 } 
+
 var objectSayColor = sayColor.bind(o); 
 objectSayColor(); //由于调用了 sayColor.bind(o),bind函数返回的函数实例中的this直接绑定了o这个对象,所以即使在全局环境调用函数objectSayColor，也会输出："blue"
 window.objectSayColor();   //输出:"blue"
