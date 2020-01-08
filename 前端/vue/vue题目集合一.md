@@ -147,4 +147,15 @@ computed:{
 ````
 ## 6.组件中 data 为什么是一个函数？
 为什么组件中的 data 必须是一个函数，然后 return 一个对象，而 new Vue 实例里，data 可以直接是一个对象？  
-因为组件是用来复用的，js里对象是引用关系，如果组件中data是一个对象，作用域就没有隔离，子组件中的data属性值会相互影响；如果组件中data选项是一个函数，那么每个实例就可以维护一份被返回对象的独立拷贝，组件实例之间的data属性值不会相互影响，；而new Vue的实例，是不会被复用的，因此不存在引用对象的问题
+因为组件是用来复用的，js里对象是引用关系，如果组件中data是一个对象，作用域就没有隔离，子组件中的data属性值会相互影响；如果组件中data选项是一个函数，那么**每个实例就可以维护一份被返回对象的独立拷贝，组件实例之间的data属性值不会相互影响**；而new Vue的实例，是不会被复用的，因此不存在引用对象的问题
+## 7.v-model的原理
+在vue项目中，主要使用v-model指令在表单input、textarea、select等元素上创建双向数据绑定，v-model 本质上不过是语法糖，v-model 在内部为不同的输入元素使用不同的属性并抛出不同的事件：
+* text和textarea元素使用value属性和input事件
+* checkbox和radio使用checked属性和change事件
+* select字段将value作为prop并将change作为事件
+````
+<input v-model='something'>
+相当于
+<input v-bind:value="something" v-on:input="something = $event.target.value">
+````
+

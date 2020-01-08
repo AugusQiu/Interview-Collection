@@ -82,3 +82,32 @@ Object.prototype.toString.call(new Date()); //"[object Date]"
 Object.prototype.toString.call(undefined);  //"[object Undefined]"
 Object.prototype.toString.call(null);       //"[object Null]"
 ````
+
+## undefined与null的区别
+js的undefined与null均可表示“无”  
+undefined和null在if语句中，都会被自动转为false，相等运算符甚至直接报告两者相等
+````
+if (!undefined) 
+    console.log('undefined is false');
+// undefined is false
+
+if (!null) 
+    console.log('null is false');
+// null is false
+
+undefined == null
+// true
+````
+具体区别：  
+**null表示没有对象**，即此处不应该有值。典型用法：
+* 作为函数的参数，表示该函数的参数不是对象
+* 作为对象原型链的终点
+````
+Object.getPrototypeOf(Object.prototype)
+//null
+````
+**undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义**
+* 变量被声明，但没赋值
+* 调用函数，应该提供的参数没有提供
+* 对象属性没有被赋值
+* 函数没有返回值，默认返回undefined
