@@ -5,7 +5,7 @@
 * pach 算法:将两个虚拟 DOM 对象的差异应用到真正的 DOM 树
 
 详细参考文章:
-https://juejin.im/post/5d36cc575188257aea108a74#heading-14
+https://juejin.im/post/5d36cc575188257aea108a74
 
 ## 虚拟DOM的优缺点？
 优点：  
