@@ -1,11 +1,11 @@
-## express的路由机制(从一个中间件到下一个中间件)
+## 一.express的路由机制(从一个中间件到下一个中间件)
 参考文章:https://cnodejs.org/topic/545720506537f4d52c414d87  
 路由：客户端发请求到服务器，服务器进行处理的过程,即如何定位到服务端处理程序的过程  
 url是不是指向文件是无所谓的，但最终都要**根据其定位到某个具体的处理程序**,也就是url到handler有个路由处理过程，只不过不同的框架有不同的处理方法.  
 express框架的路由过程可以简单如下图表示：
 <img src="https://upload-images.jianshu.io/upload_images/1864457-2e50b055a2302739.png?imageMogr2/auto-orient/strip|imageView2/2/w/573/format/webp" width="500px" height="250px"/>
 
-## express和koa2或者egg的区别
+## 二.express和koa2或者egg的区别
 首先egg是基于koa开发的,所有egg会继承koa2对比express的所有优点
 
 1.koa2更加轻量  

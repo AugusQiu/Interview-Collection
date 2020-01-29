@@ -227,3 +227,50 @@ var newObject=function(func){
     }
 }
 ````
+## ES5中的普通函数和ES6中的箭头函数有什么区别？
+1.**this的指向**：  
+使用function定义的函数，this的指向随着调用环境的变化而变化的，而箭头函数中的this指向是固定不变的，一直指向的是**定义函数的环境**
+````
+//使用function定义的函数
+function foo(){
+  console.log(this);
+}
+var obj = { aa : foo };
+foo(); /Window
+obj.aa() /obj {aa:foo}
+
+//使用箭头函数定义函数
+var foo = ()=>{ console.log(this)};
+var obj = { aa:foo };
+foo(); /Window
+obj.aa(); /Window
+````
+2.**function可以定义构造函数，箭头函数不行，也就是箭头函数不能new**
+````
+//使用function方法定义构造函数
+function Person(name, age){
+	this.name = name;
+	this.age = age;
+}
+var lenhart =  new Person(lenhart, 25);
+console.log(lenhart); //{name: 'lenhart', age: 25}
+
+//尝试使用箭头函数
+var Person = (name, age) =>{
+	this.name = name;
+	this.age = age;
+};
+var lenhart = new Person('lenhart', 25); //Uncaught TypeError: Person is not a constructor
+````
+3.**function可以变量提升，箭头函数不行**
+````
+foo(); //123
+function foo(){
+	console.log('123');
+}
+
+arrowFn(); //Uncaught TypeError: arrowFn is not a function
+var arrowFn = () => {
+	console.log('456');
+};
+````
