@@ -6,12 +6,15 @@
           <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
      </head> 
+     <style>
+        
+     </style>
   <body>
          代码输入框（注意请务必设置高度，否则无法显示）
-         <pre id="code" class="ace_editor" style="min-height:400px"><textarea class="ace_text-input">
+         <!-- <pre id="code" class="ace_editor" style="min-height:400px"><textarea class="ace_text-input">
             
-         </textarea></pre>
- 
+         </textarea></pre> -->
+         <canvas width="400" height="400" id="canvas"></canvas>
          <script>
             //  //初始化对象
             //  editor = ace.edit("code");
@@ -38,6 +41,17 @@
             //          enableSnippets: true,
             //          enableLiveAutocompletion: true
             //   });
+
+       
         </script>
     </body>
+    <script>
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext("2d") 
+            // ctx.fillStyle = "#FF0000"; 　
+            // ctx.fillRect(0,0,100,100);
+            ctx.fillStyle = "#00FF00"; 　
+            ctx.fillRect(0,0,100,100);
+
+    </script>
  </html>
