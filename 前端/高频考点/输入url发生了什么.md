@@ -44,7 +44,7 @@ name=tom&password=1234&realName=tomson
 
 ## 4.服务器处理请求并返回HTTP报文
 服务器端收到http请求后会作出响应，响应内容包括：  
-* 相应行：http版本+状态码+状态描述
+* 响应行：http版本+状态码+状态描述
 ````
 HTTP/1.1 200 OK
 ````
