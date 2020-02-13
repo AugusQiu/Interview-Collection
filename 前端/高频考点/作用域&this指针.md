@@ -180,6 +180,7 @@ var cat=new Cat(4,'Bob');    //输出:Cat {name: "cat"}和cat: age:4,name:Bob
 Cat.call(this,3,'Tom');     //由于调用了call方法，输出：this指向了Window和cat: age:3,name:Tom
 ````
 4.2 **apply(this指针要指向的对象,参数数组或arguments对象)**
+关于arguments内置对象:https://zhuanlan.zhihu.com/p/23007032  
 apply方法和call方法的作用相同，唯一不同的是call方法要将参数一一传入，而apply方法传入的是数组或者arguments对象。arguments对象包含了函数的所有参数。
 ````
 function Cat(age,name){

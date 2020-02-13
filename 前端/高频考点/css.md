@@ -19,6 +19,8 @@ BFC(block formatting contexts):块级格式化上下文，属于普通流，具�
 4,display为inline-block、table-cells、flex  
 5,overflow除了visible以外的值(hidden、auto、scroll)  
 
+# 浮动清除
+https://juejin.im/post/59e7190bf265da4307025d91
 # 元素居中的几种方法
 1，水平居中:margin:0 auto;  
 2，绝对定位水平垂直居中:  

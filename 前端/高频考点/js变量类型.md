@@ -101,7 +101,8 @@ undefined == null
 具体区别：  
 **null表示没有对象**，即此处不应该有值。典型用法：
 * 作为函数的参数，表示该函数的参数不是对象
-* 作为对象原型链的终点
+* 作为对象原型链的终点  
+console.log({}==null)//false
 ````
 Object.getPrototypeOf(Object.prototype)
 //null
