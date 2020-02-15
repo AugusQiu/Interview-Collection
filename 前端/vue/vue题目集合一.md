@@ -181,3 +181,37 @@ SSR:**vue在客户端将标签渲染成的整个html片段的工作在服务端�
 缺点:
 * 更多的开发条件限制： 例如服务端渲染只支持 beforCreate和created两个钩子函数，这会导致一些外部扩展库需要特殊处理，才能在服务端渲染应用程序中运行；并且与可以部署在任何静态文件服务器上的完全静态单页面应用程序SPA不同，服务端渲染应用程序，需要处于Node.js server运行环境；
 * 更多的服务器负载：在Node.js中渲染完整的应用程序，显然会比仅仅提供静态文件的server更加大量占用CPU资源
+
+## 10.Vue为什么没有类似于React中shouldComponentUpdate的生命周期？
+React的shouldComponent的用法:  
+````
+class CounterButton extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {count:1};
+  }
+
+  shouldComponentUpdate(nextProps,nextState){
+    if (this.props.color !== nextProps.color) {
+      return true;
+    }
+    if (this.state.count !== nextState.count) {
+      return true;
+    }
+    return false;
+  }
+
+   render() {
+    <button
+      color={this.props.color}
+      onClick={() => this.setState(state => ({count: state.count + 1}))}>
+      Count: {this.state.count}
+    </button>
+  }
+
+}
+在上述代码中，组件仅仅会校验prop.color和state.count,如果这些值都不会改变，那么组件就不会有更新
+````
+根本原因是Vue与React的变化侦测方式有所不同  
+React是pull的方式侦测变化,当React知道发生变化后,会使用Virtual Dom Diff进行差异检测,但是很多组件实际上是肯定不会发生变化的,这个时候需要用shouldComponentUpdate进行手动操作来减少diff,从而提高程序整体的性能.  
+Vue是pull+push的方式侦测变化的,在一开始就知道那个组件发生了变化,因此在push的阶段并不需要手动控制diff  
