@@ -18,7 +18,8 @@ BFC(block formatting contexts):块级格式化上下文，属于普通流，具�
 3,绝对定位:position(absolute、fixed)  
 4,display为inline-block、table-cells、flex  
 5,overflow除了visible以外的值(hidden、auto、scroll)  
-
+# inline-block
+假如给行内元素设置a元素 inline-block属性值，它既具有block的宽度高度特性又具有inline的同行特性
 # 浮动清除
 https://juejin.im/post/59e7190bf265da4307025d91
 # 元素居中的几种方法
@@ -76,3 +77,12 @@ align-content:stretch:交叉轴特有，适用于多行的flex容器，并且当
 具体使用可参考阮一峰的教程:
 http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
 
+# 圣杯布局和双飞翼布局
+都是三栏布局，左右定宽，中间自适应
+https://zhuanlan.zhihu.com/p/58355168
+# 移动端300毫秒延迟，怎么解决的？
+用户触碰页面之后，需要等待一段时间来判断是不是双击(double tap)动作，而不是立即响应单击(click)  
+使用FastClick库，FastClick 是 FT Labs 专门为解决移动端浏览器 300 毫秒点击延迟问题所开发的一个轻量级的库。FastClick的实现原理是在检测到touchend事件的时候，会通过DOM自定义事件立即出发模拟一个click事件，并把浏览器在300ms之后的click事件阻止掉  
+# 点击穿透
+B元素在A元素之上，在B元素的touchstart事件上注册了一个回调函数，该回调函数的作用是隐藏B元素。我们发现，当我们点击B元素，B元素被隐藏了，随后，A元素触发了click事件  
+这是因为在移动端浏览器，事件执行的顺序是touchstart > touchend > click。而click事件有300ms的延迟，当touchstart事件把B元素隐藏之后，隔了300ms，浏览器触发了click事件，但是此时B元素不见了，所以该事件被派发到了A元素身上。如果A元素是一个链接，那此时页面就会意外地跳转

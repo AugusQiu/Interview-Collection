@@ -215,3 +215,6 @@ class CounterButton extends React.Component{
 根本原因是Vue与React的变化侦测方式有所不同  
 React是pull的方式侦测变化,当React知道发生变化后,会使用Virtual Dom Diff进行差异检测,但是很多组件实际上是肯定不会发生变化的,这个时候需要用shouldComponentUpdate进行手动操作来减少diff,从而提高程序整体的性能.  
 Vue是pull+push的方式侦测变化的,在一开始就知道那个组件发生了变化,因此在push的阶段并不需要手动控制diff  
+## SPA单页面如何计算PV(页面访问量)
+百度统计     
+Vue的入口文件中全局定义Router.beforeEach

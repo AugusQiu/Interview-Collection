@@ -13,4 +13,30 @@ React并不是将click事件直接绑定在dom上面，而是采用事件冒泡�
 ###  合成事件绑定方式
 < div onClick={this.handleClick}>点我呀！</>
 ### 原生事件
-addEventListener
+addEventListener 第三个参数 true代表句柄事件在捕获阶段实现，false冒泡阶段，
+同一个对象节点上绑定多个事件，执行的顺序是怎样的？  
+其他元素先发生捕获阶段事件 -> 本元素按照代码写的顺序执行 -> 其他元素最后发生冒泡阶段事件 
+# React和Vue的比较
+相同：MVVM框架、virtual DOM、组件化开发  
+不同：一个模板语法，另外一个偏向一切用js解决，推崇函数式编程和单向数据流，Vue与React的变化侦测方式有所不同  
+### 什么是函数式编程？
+由于 JavaScript 支持高阶函数、匿名函数、**函数是一等公民**、闭包、解构（模式匹配）等特性，所以它也能支持函数式编程范式，事实上 JavaScript 是一门基于原型(prototype-based)的多范式语言 
+不可变数据结构：js六大基本数据类型、惰性求值:比如一些数学题，我们可能一开始并不需要把所有表达式都求值，这样可以在计算的过程中将一些表达式消掉  
+柯里化；**只传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数**
+````
+var add = function(x) {
+  return function(y) {
+    return x + y;
+  };
+};
+
+var increment = add(1);
+var addTen = add(10);
+
+increment(2);
+// 3
+
+addTen(2);
+// 12
+````
+

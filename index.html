@@ -7,14 +7,38 @@
           <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
      </head> 
      <style>
-        
+.center {
+      width: 100%;
+      height: 500px;
+      background: lightgray;
+      float:left;
+}
+.left {
+      width: 200px;
+      height: 500px;
+      background: lightpink;
+      float:left;
+      margin-left: -100%;
+}
+.right {
+      width: 300px;
+      height: 500px;
+      background: lightgreen; 
+      float:left;
+      margin-left: -300px;
+}
      </style>
   <body>
-         代码输入框（注意请务必设置高度，否则无法显示）
+   <div class="main">
+      <div class="center">中间自适应</div>  <!-- 因为相对来说，center中为主要内容，所以写前边，这样也有利于SEO -->
+      <div class="left">左列定宽</div>
+      <div class="right">右列定宽</div>
+  </div>
+      
          <!-- <pre id="code" class="ace_editor" style="min-height:400px"><textarea class="ace_text-input">
             
          </textarea></pre> -->
-         <canvas width="400" height="400" id="canvas"></canvas>
+         <!-- <canvas width="400" height="400" id="canvas"></canvas> -->
          <script>
             //  //初始化对象
             //  editor = ace.edit("code");
@@ -46,12 +70,19 @@
         </script>
     </body>
     <script>
-            var canvas = document.getElementById('canvas');
-            var ctx = canvas.getContext("2d") 
-            // ctx.fillStyle = "#FF0000"; 　
+            // var canvas = document.getElementById('canvas');
+            // var ctx = canvas.getContext("2d") 
+            // // ctx.fillStyle = "#FF0000"; 　
+            // // ctx.fillRect(0,0,100,100);
+            // ctx.fillStyle = "#00FF00"; 　
             // ctx.fillRect(0,0,100,100);
-            ctx.fillStyle = "#00FF00"; 　
-            ctx.fillRect(0,0,100,100);
+          
 
+  Function.prototype.a = 1;
+  Object.prototype.b = 2;
+  function A() {}
+  var a = new A();
+  console.log(a.a, a.b); // undefined, 2
+  console.log(A.a, A.b); // 1, 2
     </script>
  </html>
