@@ -49,7 +49,7 @@ server端和client端都做了处理工作:
 3.webpack-dev-server对文件变化的监控。不同于第一步，这里并不是监控代码变化而重新打包。当我们在配置文件中配置了 devServer.watchContentBase为 true 时，Server会监听配置文件夹中静态文件的变化，变化后通知浏览器端live reload(刷新)  
 4.通过sockjs(webpack-dev-server的依赖)在浏览器端和服务端之间建立一个websocket长连接，将webpack编译打包的各个阶段的状态信息告知浏览器端，同时也包括第三步中Server监听静态文件变化的信息。  
 浏览器根据这些socket信息进行不同的操作，当然服务端传递的最主要信息还是新模块的hash值，后面会根据这个hash值来进行模块热更替  
-5.webpack-devserver/Client端不能够请求更新的代码，也不会执行热更新操作，而把这些工作交回webpack.webpack/hot/dev-server的工作就是根据webpack-dev-server/client传给他的信息一级dev-server的配置，来决定是刷新浏览器还是模块热更新
+5.webpack-devserver/Client端不能够请求更新的代码，也不会执行热更新操作，而把这些工作交回webpack.webpack/hot/dev-server的工作就是根据webpack-dev-server/client传给他的信息一级dev-server的配置，来决定是刷新浏览器还是模块热更新  
 6.HotModuleReplacement.runtime是客户端HMR的中枢，他接收到上一步传递给它的新模块hash值，并通过 JsonpMainTemplate.runtime 向 server 端发送 Ajax 请求，服务端返回一个 json，该 json 包含了所有要更新的模块的 hash 值，获取到更新列表后，该模块再次通过 jsonp 请求，获取到最新的模块代码  
 7.HotModulePlugin 将会对新旧模块进行对比，决定是否更新模块，在决定更新模块后，检查模块之间的依赖关系，更新模块的同时更新模块间的依赖引用  
 8.当 HMR 失败后，回退到 live reload 操作，也就是进行浏览器刷新来获取最新打包代码

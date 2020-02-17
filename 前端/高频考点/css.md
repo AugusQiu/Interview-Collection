@@ -86,3 +86,6 @@ https://zhuanlan.zhihu.com/p/58355168
 # 点击穿透
 B元素在A元素之上，在B元素的touchstart事件上注册了一个回调函数，该回调函数的作用是隐藏B元素。我们发现，当我们点击B元素，B元素被隐藏了，随后，A元素触发了click事件  
 这是因为在移动端浏览器，事件执行的顺序是touchstart > touchend > click。而click事件有300ms的延迟，当touchstart事件把B元素隐藏之后，隔了300ms，浏览器触发了click事件，但是此时B元素不见了，所以该事件被派发到了A元素身上。如果A元素是一个链接，那此时页面就会意外地跳转
+
+# 文本过长，设置省略号
+width、white-space:nowrap、overflow:hidden、text-overflow:ellipsis
