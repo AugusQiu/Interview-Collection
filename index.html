@@ -76,17 +76,19 @@
             // // ctx.fillRect(0,0,100,100);
             // ctx.fillStyle = "#00FF00"; 　
             // ctx.fillRect(0,0,100,100);
-          
-       function change(a){
-          a.name = 'xxx'
-          console.log(a);
-       }
+            function jsonp(req){
+    var script = document.createElement('script');
+    var url = req.url+'?callback='+req.callback.name;
+    document.getElementsByTagName('head')[0].appendChild(script);
+}
 
-        let x ={
-            name:'vvv'
-        }
-       change(x);
-       console.log(x);
+function hello(res){
+    alert('hello ' + res.data);
+}
+jsonp({
+    url:'',
+    callback:hello
+})
       
     </script>
  </html>
