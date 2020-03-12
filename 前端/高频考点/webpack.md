@@ -59,3 +59,5 @@ server端和client端都做了处理工作:
 * 利用CDN加速。在构建过程中，将引用的静态资源路径修改为CDN上对应的路径。可以利用webpack对于output参数和各loader的publicPath参数来修改资源路径  
 * 删除死代码（Tree Shaking）。将代码中永远不会走到的片段删除掉。可以通过在启动webpack时追加参数--optimize-minimize来实现  
 * 提取公共代码
+## webpack单入口和多路口配置 
+https://blog.csdn.net/SMoothiemiss/article/details/79009379

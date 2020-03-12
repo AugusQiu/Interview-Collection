@@ -68,3 +68,111 @@ for(let i = 1;i<=3;i++){
     console.log(result2) // 10
 ````
 ## 如下代码的输出
+关于作用域和作用域链的常见例子判断输出：  
+https://www.jianshu.com/p/fafa281e6d84
+````
+var x = 10;
+bar() 
+function bar() {
+    var x = 30;
+   function foo() {
+      console.log(x) 
+   }
+   foo();
+}  //30
+````
+````
+var x = 10
+bar() 
+function foo() {
+  console.log(x)
+}
+function bar() {
+  var x = 30
+  foo()
+}  //10,调用foo,进入foo的执行上下文，foo没有活动对象，只能按照作用域链去找上一级，即全局作用域，x=10
+````
+**总结经验**：
+````
+比较上面的两个例子，它们各自所谓的执行上下文是什么情况？
+首先，明确一点：什么时候声明一个function,什么时候创建作用域，注意是声明，而不是调用的时候
+第一个例子：
+在全局作用域中声明了bar()函数，而foo()的声明是在bar()作用域里面的
+第二个例子，bar()和foo()都是声明在全局里的，所以foo()里面没有x，它会沿着作用域链向上级搜索，foo()的上级就是全局，全局里的x等于10
+````
+## 如下代码的输出
+````
+var a = 1
+function fn1() {
+    function fn3() {
+       function fn2() {
+          console.log(a)
+        }
+       fn2()
+       var a = 4
+    }
+    var a = 2
+    return fn3
+}
+var fn = fn1()
+fn() //undefined
+````
+````
+var a = 1
+function fn1() {
+   function fn2() {
+      console.log(a)
+   }
+   function fn3() {
+      var a = 4
+      fn2()
+    }
+   var a = 2
+   return fn3
+}
+var fn = fn1() //2,fn2()里没a,上级fn1()里找，调用fn2()的时候，fn1作用域下a已经声明为2
+````
+**总结经验**：看哪里是否有要用的变量，是根据声明所在的作用域来看的；如果作用域里有这个变量，输出是不是undefined,就看调用函数是在变量赋值前还是后了
+````
+var a = 1
+function fn1() {
+   function fn3() {
+      var a = 4
+      fn2()
+   }
+      var a = 2
+      return fn3
+}
+   
+function fn2() {
+    console.log(a)
+}
+    
+var fn = fn1()
+fn() // 1,fn1()的上级是全局作用域,a=1
+````
+## 如下代码的输出
+````
+var a = 1
+var c = {name: "oli", age: 2}
+
+function f1(n) {
+   ++n
+}
+function f2(obj) {
+   ++obj.age
+}
+
+f1(a) 
+f2(c) 
+f1(c.age) 
+console.log(a) //1
+console.log(c) //{name: "oli", age: 3}
+````
+````
+var obj1 = {a:1, b:2};
+var obj2 = {a:1, b:2};
+console.log(obj1 == obj2); //false
+console.log(obj1 = obj2);
+console.log(obj1 == obj2); //true
+````
