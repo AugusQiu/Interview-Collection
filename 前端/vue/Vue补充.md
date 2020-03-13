@@ -1,0 +1,171 @@
+## Vue.js是什么，用来做什么？
+Vue.js是一套构建用户界面的渐进式框架，Vue 的核心库只关注视图层，并且非常容易学习，易于与其他库整合，适合用来开发 表单项繁多、内容需要根据用户的操作进行修改的单页面应用
+## 渐进式怎么理解？
+渐进式框架的大概意思就是你可以只用我的一部分，而不是用了我这一点就必须用我的所有部分  
+可整合其他，不一定全家桶
+## v-on 可以监听多个方法吗？
+可以
+````
+<input type="text" :value="name" @input="onInput" @focus="onFocus" @blur="onBlur" />
+````
+## 什么是 MVVM？比之 MVC 有什么区别？
+MVC里，View是可以直接访问Model的，所以View里会包含Model信息，，在MVC模型里，Model不依赖于View，但是 View是依赖于Model的  
+MVVM提供对View和ViewModel的双向绑定，View和Model之间并没有直接的联系，而是通过ViewModel进行交互
+## View的优点
+* 低耦合，视图(View)独立于Model变化和修改
+* 可重用性，可以把一些视图逻辑放在一个 ViewModel 里面，让很多 view 重用这段视图逻辑
+* 便于测试，界面素来是比较难测试的，而现在测试可以针对ViewModel来写
+## 三大框架的对比
+* 组织方式：React和Vue都是模块化，Angular是MVC
+* 数据绑定：Vue、Angular双向绑定，**React单向绑定**(单向数据流：用户访问View，View发出用户交互的Action；在Action里对state进行相应更新；state更新后会触发View更新页面的过程)
+* 路由：React、Vue动态路由，Angular静态路由
+* 自由度：React自由度大
+## vue第一次加载页面会触发哪几个钩子
+beforeCreate, created, beforeMount, mounted
+## Vue.set 视图更新？
+https://zhuanlan.zhihu.com/p/67301402  
+问题：数据变化，但是视图却没有实时渲染  
+解决办法：**当操作数组和对象的时候，因为js有些方法不是响应式的，所以vue检测不到它的变动。但是我们不得不得到我们想要的操作，就需要使用vue提供的响应式方法：Vue.set(object,key,value)**，将响应属性添加到嵌套的对象上**   
+ps:this.$set是全局Vue.set方法的别名  
+ps:一个普通的 JavaScript 对象传给 Vue 实例的 data 选项，Vue 将遍历此对象所有的属性，并使用 Object.defineProperty 把这些属性全部转为 getter/setter，Object.defineProperty 是 ES5 中一个无法 shim 的特性，这也就是为什么 Vue 不支持 IE8 以及更低版本浏览器
+##  v-if 和 v-for 的优先级?
+v-for优先级高
+## Vue 检测数组变化有什么注意事项？
+由于js的限制，Vue不能检测以下变动的数组
+* 当你利用索引设置一个项时, 例如: vm.items[indexOfItem] = newValue;  
+解决办法：Vue.set()
+* 当你修改数组的长度时,例如: vm.items.length = newLength;  
+解决办法：可以使用splice，example1.items.splice(newLength)
+## Vue的两个核心
+数据驱动、组件系统
+## Vue如何获取DOM?
+this.$refs
+## 什么是可接受的 prop 类型？
+````
+prop:{
+    type:String,
+    required:true
+}
+````
+## 什么是非 prop 属性？
+data-title，class，style就是非prop属性，无需定义相应的prop，这些属性都会被添加到组件的根元素上
+## props有哪些可用的验证
+````
+String
+Number
+Boolean
+Symbol
+
+Object
+Function
+Array
+````
+## slot
+插槽，也就是slot，**是组件的一块HTML模板，这块模板显示不显示、以及怎样显示由父组件来决定**
+````
+//父组件
+<template>
+    <div class="father">
+        <h3>这里是父组件</h3>
+        <child>
+            <div class="tmpl">
+              <span>菜单1</span>
+              <span>菜单2</span>
+              <span>菜单3</span>
+              <span>菜单4</span>
+              <span>菜单5</span>
+              <span>菜单6</span>
+            </div>
+        </child>
+    </div>
+</template>
+
+//子组件
+<template>
+    <div class="child">
+        <h3>这里是子组件</h3>
+        <slot></slot>
+    </div>
+</template>
+
+在这个例子里，因为父组件在里面写了html模板，那么子组件的匿名插槽会被使用
+````
+## 动态组件
+在**Vue中有一个:is特性**， 组件可以用过 :is 来切换
+````
+<template>
+  <div>
+     <button @click="showWhat = 'A'">showA</button>
+     <button @click="showWhat = 'B'">showB</button>
+     
+     <!--动态切换显隐，组件-->
+     <component :is="showWhat"></component>
+  </div>
+</template>
+
+<script>
+//引入组件A以及组件B
+import A from "./a";
+import B from "./b";
+
+export default {
+  components: {
+    A,
+    B
+  },
+  data() {
+    return {
+      showWhat: "A"
+    };
+  }
+};
+</script>
+
+<style>
+</style>
+````
+:is 通过 keep-alive标签缓存。被该标签包裹的组件就会被缓存下来，每次点击都会重新渲染(即创造~挂载)。相比较于 v-show 和 v-if 来说 使用 :is 动态组件更加优雅
+## 提供 transitions 有什么可能的方式？
+vue过渡：
+* v-enter-active:v-enter v-enter-to
+* v-leave-active:v-leave v-leave-to
+## 请说出vue.cli项目中src目录每个文件夹和文件的用法？
+assets文件夹是放静态资源；components是放组件；router是定义路由相关的配置;view视图；app.vue是一个应用主组件；main.js是入口文件
+## .vue的单文件组件解决了哪些问题？
+字符串模板问题：不支持CSS和css预处理
+## Vue-router 跳转和 location.href 有什么区别？
+location.href是写死的，vue-router无论是 HTML5 history 模式还是 hash 模式,让浏览器不再重新加载页面
+##  Vue 里面 router-link 在电脑上有用，在安卓上没反应怎么解决？
+babel问题，安装babel polypill 插件解决
+## Vue2中注册在router-link上事件无效解决方法
+@click后面加上native
+## 路由匹配优先级和嵌套路由
+匹配的优先级就按照路由的定义顺序：谁先定义的，谁的优先级就最高  
+嵌套路由: children字段
+## 单页面应用和多页面应用区别及优缺点？
+* 组成不同：SPA一个外壳页面加多个页面片段，MPA多个完整页面  
+* 资源：SPA共用，只需要在外壳部分加载，MPA不共用
+* 刷新：SPA局部刷新，MPA整页刷新
+* url模式：SPA用hash
+* SEO:SPA不利于SEO
+* 转场动画:SPA同意实现
+
+## 什么是 Asset URL 转换规则
+https://vue-loader.vuejs.org/zh/guide/asset-url.html#%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99
+## 如何使用 deep 选择器？
+vue组件编译后，会将 template 中的每个元素加入 [data-v-xxxx] 属性来确保 style scoped 仅本组件的元素而不会污染全局，但如果你引用了第三方组件，默认只会对组件的最外层（div）加入这个 [data-v-xxxx] 属性，但第二层开始就没有效果了
+
+## keep-alive 标签的目的是什么？
+搭建 vue 项目时，某些组件没必要多次渲染，所以需要将组件在内存中进行‘持久化’，此时 keep-alive 便可以派上用场了。**keep-alive 可以使被包含的组件状态维持不变**，即便是组件切换了，其内的状态依旧维持在内存之中。在下一次显示时，也不会重现渲染     
+ps：keep-alive 与 transition相似，只是一个**抽象组件，它不会在DOM树中渲染(真实或者虚拟都不会)**，也不在父组件链中存在，比如：你永远在 this.$parent 中找不到 keep-alive
+## vue递归组件
+只要咱们需要使用相同的模板结构，但需要使用分层输入数据，就可以使用递归。 像树状视图（用于显示文件夹结构），网站上的注释，嵌套菜单等组件等
+## Vue 提供的事件修饰符是什么？
+* .prevent = js的event.preventDefault(),用来阻止默认程序的运行
+* .stop：阻止冒泡
+* .capture：打乱冒泡顺序，用以下代码为例，发生click事件时会优先去找你可以传递到的所有父元素中最后一个有.capture的元素
+* .self：不让子元素的事件触发自己绑定的事件，但是不会阻止冒泡
+* .once：事件只会触发一次
+## vue异步组件
+https://juejin.im/post/5d52c1bce51d4562043f56de
+## vue创建插件

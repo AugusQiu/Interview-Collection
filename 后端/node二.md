@@ -77,3 +77,37 @@ heapTotal 和 heapUsed 代表V8的内存使用情况; external代表V8管理的�
 
 ## 新建Buffer会占用V8分配的内存吗
 不会，Buffer属于堆外内存，不是V8分配的
+## Buffer.alloc和Buffer.allocUnsafe的区别
+Buffer.allocUnsafe创建的 Buffer 实例的底层内存是未初始化的。新创建的 Buffer 的内容是未知的，可能包含敏感数据。使用 Buffer.alloc() 可以创建以零初始化的 Buffer 实例
+## Buffer的内存分配机制
+为了高效的使用申请来的内存，Node采用了slab分配机制。slab是一种动态的内存管理机制。**Node以8kb为界限来来区分Buffer为大对象还是小对象**，如果是小于8kb就是小Buffer，大于8kb就是大Buffer  
+例如第一次分配一个1024字节的Buffer，Buffer.alloc(1024),那么这次分配就会用到一个slab，接着如果继续Buffer.alloc(1024),那么上一次用的slab的空间还没有用完，因为总共是8kb，1024+1024 = 2048个字节，没有8kb，所以就继续用这个slab给Buffer分配空间
+如果超过8bk，那么直接用C++底层的SlowBuffer来给Buffer对象提供空间
+## Buffer乱码问题
+一般情况下，只需要设置rs.setEncoding('utf8')即可解决乱码问题
+## webSocket与传统的http有什么优势
+* 客户端与服务器之间只需要一个TCP连接，比http长轮询使用更少的连接
+* webSocket服务端可以主动推送数据到客户端
+* 更轻量的协议头
+## webSocket协议升级时什么，能简述一下吗？
+WebSocket依赖于HTTP协议，Upgrade首部用来把当前的HTTP请求升级到WebSocket协议
+## 该请求和普通的HTTP请求有几点不同：
+* GET请求的地址不是类似/path/，而是以ws://开头的地址
+* 请求头Upgrade: websocket和Connection: Upgrade表示这个连接将要被转换为WebSocket连接
+* Sec-WebSocket-Key是用于标识这个连接，并非用于加密数据
+* Sec-WebSocket-Version指定了WebSocket的协议版本
+## 简述一下node的多进程架构
+面对node单线程对多核CPU使用不足的情况，Node提供了child_process模块，来实现进程的复制，node的多进程架构是主从(Master-Worker)模式  
+主进程 fork(复制)多个工作进程，工作进程受主进程控制
+````
+var fork = require('child_process').fork;
+var cpus = require('os').cpus();
+for(var i = 0; i < cpus.length; i++){
+    fork('./worker.js');
+}
+````
+## 宏任务和微任务
+微任务和宏任务皆为异步任务，它们都属于一个队列，主要区别在于他们的执行顺序，Event Loop的走向和取值  
+区别:
+* 宏任务一般是：包括整体代码script，setTimeout，setInterval、setImmediate
+* 微任务：原生Promise(有些实现的promise将then方法放到了宏任务中)、process.nextTick、Object.observe(已废弃)、 MutationObserver记住就行了
