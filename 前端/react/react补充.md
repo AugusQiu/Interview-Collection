@@ -120,7 +120,7 @@ typeScript
 * 相同点：都是纯js对象，都会触发render的更新
 * 不同点：需要动态修改数据的就是状态
 ## React-为什么不要直接改state
-直接修改state，react不会重新render，setState的更新在钩子函数和合成事件中是异步的，直接修改state，react不会重新render，setState的更新在钩子函数和合成事件中是异步的，也就是说，我们在改变state的时候，需要重新生成一个对象去代替原来的state，而不是直接改原来的，直接修改state会导致state不可预期
+直接修改state，react不会重新render，setState的更新在钩子函数和合成事件中是异步的，也就是说，我们在改变state的时候，需要重新生成一个对象去代替原来的state，而不是直接改原来的，直接修改state会导致state不可预期
 ## React调解、diff深入
 https://juejin.im/post/5c3077e251882525487c30e5
 ## 如何使用 setState 防止不必要的更新？
@@ -192,4 +192,8 @@ componentWillUnmount() {
 shouldComponentUpdate定时器
 ## 为什么不能在 componentWillUnmount 中调用 setState() 方法？
 在componentWillUnmount中setState是一定成功的，但由于组件即将被卸载，你的setState并不会再次触发组件的render函数，因此出现了state和render函数中不同步的问题
-## 
+## React虚拟DOM和Vue虚拟DOM的差别？
+* React调用setstate改变状态，render函数就会执行，重新生成一个新的虚拟DOM,这个虚拟dom和旧的虚拟dom做比较，得出差异然后渲染
+* Vue组件中由于数据变化会触发setter，由于vue组件中数据的getter的作用，收集了依赖，setter触发会根据这些依赖，生成新的虚拟dom，然后对比新旧虚拟dom进行渲染  
+
+虽然两者对于dom的更新策略不太一样， react采用**组件树(父子)**自顶向下的全量diff，vue是局部订阅的模式。 但是这其实和虚拟dom并无关系

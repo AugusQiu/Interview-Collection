@@ -1,11 +1,16 @@
 ## 虚拟DOM实现原理?
+简单来说，可以把Virtual DOM 理解为一个简单的JS对象，并且最少包含标签名( tag)、属性(attrs)和子元素对象( children)三个属性  
 实现原理主要包括以下3个部分:
 * 用 JavaScript 对象模拟真实 DOM 树，对真实 DOM 进行抽象
 * diff 算法:比较两棵虚拟 DOM 树的差异
 * pach 算法:将两个虚拟 DOM 对象的差异应用到真正的 DOM 树
 
 详细参考文章:
-https://juejin.im/post/5d36cc575188257aea108a74
+https://juejin.im/post/5d36cc575188257aea108a74  
+补充:https://blog.fundebug.com/2019/06/26/vue-virtual-dom/  
+* Vue推荐使用模板来构建应用界面，在底层实现中Vue会将模板编译成渲染函数，当然我们也可以不写模板，直接写渲染函数，以获得更好的控制
+* 通过createElement方法将VNode渲染成dom节点，VNode可以理解为**节点描述对象**，它描述了应该怎样去创建真实的DOM节点
+
 ## 真实DOM缺陷
 传统开发方式，原生JS或JQ操作DOM时，假如要更新10个节点，浏览器收到第一个DOM请求并不知道还有 9 次更新操作，因此会马上执行流程，最终执行10 次，如果前后两次操作都是一个节点，就会造成前一次更新操作的无用功
 
