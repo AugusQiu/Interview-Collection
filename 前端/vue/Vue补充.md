@@ -167,5 +167,12 @@ ps：keep-alive 与 transition相似，只是一个**抽象组件，它不会在
 * .self：不让子元素的事件触发自己绑定的事件，但是不会阻止冒泡
 * .once：事件只会触发一次
 ## vue异步组件
-https://juejin.im/post/5d52c1bce51d4562043f56de
-## vue创建插件
+异步组件则是在用到该组件时，异步通过请求去拉取对应组件的js（这里需要和webpack的import相结合）。当对应的js加载完成后，获取到异步组件的配置项，从而创建组件构造器。再通过forceRender，强制依赖它的vm实例重新触发渲染函数  
+https://juejin.im/post/
+5d52c1bce51d4562043f56de
+## vue3.0和vue2.x的区别
+vue3.0用typescript重构  
+数据监听：vue2.x大家都知道使用的是es5的object.defineproperties中getter和setter实现的，而**vue3.0的版本，是基于Proxy进行监听的**，其实基于proxy监听就是所谓的lazy by default，什么意思呢，就是只要你用到了才会监听，可以理解为‘按需监听’，官方给出的诠释是：速度加倍，同时内存占用还减半  
+new处来的组件实例，vue2.x都会挂载在Vue对象上，无论是否用到，而vue3.0中可以按需引入  
+更好的多端渲染支持:
+例如国内的weex，国外的native vue。在vue3.0中新增了custom Render Api，只需要import {curateRender} from '@vue/runtime-core'
