@@ -68,13 +68,9 @@
         </script>
     </body>
     <script>
-            // var canvas = document.getElementById('canvas');
-            // var ctx = canvas.getContext("2d") 
-            // // ctx.fillStyle = "#FF0000"; 　
-            // // ctx.fillRect(0,0,100,100);
-            // ctx.fillStyle = "#00FF00"; 　
-            // ctx.fillRect(0,0,100,100);
-            var arr = ['b','c','d'];
-         console.log(arr.splice(0,0,'a')); 
+    function SumSolution(n){
+      return n && SumSolution(n-1) + n;
+    }
+   alert(SumSolution(4))
     </script>
  </html>

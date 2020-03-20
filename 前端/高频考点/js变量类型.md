@@ -62,7 +62,8 @@ console.log(obj1==obj2); //false,比较的是引用地址
  typeof new RegExp(); //object 无效
 
 ````
-2.instanceof:instanceof运算符只能用于引用类型的判断，他会判断运算符左操作数对象的原型链上是否有右边这个构造函数的prototype属性，也就是说指定对象是否是某个构造函数的实例,当然原型链的顶端就是Object
+2.instanceof:instanceof运算符**只能用于引用类型的判断**，他会判断运算符左操作数对象的原型链上是否有右边这个构造函数的prototype属性，也就是说指定对象是否是某个构造函数的实例,当然原型链的顶端就是Object    
+局限性：用instanceof检测的时候,只要当前的这个类在实例的原型链上(可以通过原型链__proto__找到它),检测出来的结果都是true
 ````
 [] instanceof Array; //true
 [] instanceof Object; //true

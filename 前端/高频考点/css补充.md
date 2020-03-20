@@ -9,7 +9,7 @@
 ##  什么是 CSS 继承？哪些属性能继承，哪些不能？
 子级不用设置css属性，会自动继承父级设置的，可以减少CSS代码，便于维护
 ### 自动继承的属性
-字体系列属性(font)、文本系列(text)、visibility
+字体系列属性(font)、文本系列(text)、列表相关(list)、color、visibility
 ## 空(void)元素
 没有内容的 HTML 元素被称为空元素。空元素是在开始标签中关闭的，也就是说空元素没有闭合标签的  
 ````
@@ -40,7 +40,7 @@ line-height=height；
 媒体查询、rem、百分比布局、视口单位(vw/vh)
 https://juejin.im/post/5caaa230e51d452b672f9703
 ## css3新特性
-新添加了很多选择器、transition过渡、Animation动画、border-radius
+新添加了很多选择器、transition过渡、Animation动画、border-radius、box-shadow、background-size、background-image、text-shadow、
 ## 渐进增强和优雅降级分别是什么意思？
 * 渐进增强（Progressive Enhancement）：一开始就针对低版本浏览器进行构建页面，完成基本的功能，然后再针对高级浏览器进行效果、交互、追加功能达到更好的体验  
 * 优雅降级（Graceful Degradation）：一开始就构建站点的完整功能，然后针对浏览器测试和修复。比如一开始使用 CSS3 的特性构建了一个应用，然后逐步针对各大浏览器进行 hack 使其可以在低版本浏览器上正常浏览
@@ -78,3 +78,34 @@ transform:scale()
 https://zhuanlan.zhihu.com/p/58515064
 ## CSS编码规范？
 https://juejin.im/entry/5967040451882568af7f426f
+## CSS3过渡和动画
+````
+//过渡
+div{
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  margin: 200px auto;
+  transition: all 1000ms linear 500ms;
+}
+
+div:hover{
+   transform: rotate(60deg);
+}
+
+//动画
+div
+{
+	width:100px;
+	height:100px;
+	background:red;
+	animation:myfirst 5s;
+}
+@keyframes myfirst
+{
+	0%   {background:red;}
+	25%  {background:yellow;}
+	50%  {background:blue;}
+	100% {background:green;}
+}
+````

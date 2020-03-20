@@ -107,3 +107,6 @@ Promise.prototype.finally = function(onFinally) {
   );
 };
 ````
+## Proxy原理
+Proxy是构造函数，第一个参数target指向被拦截的对象，第二个参数handler是句柄(定义操作方法的一个集合),返回的是一个新代理后的对象 
+
