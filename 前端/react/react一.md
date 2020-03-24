@@ -20,6 +20,7 @@ addEventListener 第三个参数 true代表句柄事件在捕获阶段实现，f
 相同：virtual DOM 、组件化模块化开发  
 不同：Vue:模板语法、MVVM，React：just View(只关心视图层)、偏向一切用js解决，推崇函数式编程和单向数据流，Vue与React的变化侦测方式有所不同  
 ### 什么是函数式编程？
+http://www.ruanyifeng.com/blog/2012/04/functional_programming.html  
 由于 JavaScript 支持高阶函数、匿名函数、**函数是一等公民**、闭包、解构（模式匹配）等特性，所以它也能支持函数式编程范式，事实上 JavaScript 是一门基于原型(prototype-based)的多范式语言 
 不可变数据结构：js六大基本数据类型、惰性求值:比如一些数学题，我们可能一开始并不需要把所有表达式都求值，这样可以在计算的过程中将一些表达式消掉  
 柯里化；**只传递给函数一部分参数来调用它，让它返回一个函数去处理剩下的参数**

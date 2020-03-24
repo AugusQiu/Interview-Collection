@@ -68,9 +68,34 @@
         </script>
     </body>
     <script>
-    function SumSolution(n){
-      return n && SumSolution(n-1) + n;
-    }
-   alert(SumSolution(4))
+      
+      var canPermutePalindrome = function(s) {
+   let arr = s.split('');
+   let list= {};
+   let len = s.length;
+   let count = 0;
+   for(let i=0;i<arr.length;i++){
+       if(!list[arr[i]]){
+           list[arr[i]] = 1;
+       }else{
+           list[arr[i]] ++;
+       }
+   }
+   Object.keys(list).forEach(key =>{
+       if(list[key] ===2){
+         count++;
+       }
+   })
+
+    if(count == Math.floor(len/2)){
+       return true
+     }
+      return false;
+   
+};
+  console.log(canPermutePalindrome('aabb'))
+  console.log(canPermutePalindrome('acvv'))
+  console.log(canPermutePalindrome('acc'))
+  console.log(canPermutePalindrome('acv'))
     </script>
  </html>
