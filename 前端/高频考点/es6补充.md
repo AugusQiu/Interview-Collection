@@ -109,4 +109,45 @@ Promise.prototype.finally = function(onFinally) {
 ````
 ## Proxy原理
 Proxy是构造函数，第一个参数target指向被拦截的对象，第二个参数handler是句柄(定义操作方法的一个集合),返回的是一个新代理后的对象 
+## WeakMap和Map的性能有什么差别?
+* weakMapZ只接受对象作为键名(null)
+* **键名所引用的对象都是弱引用，不计入垃圾回收机制**
+WeakMap 应用的典型场合就是 DOM 节点作为键名
+### Map跟对象的区别
+* **Object 键只能是 String 或者 Symbol，但 Map 键可以是任意值，包括函数、对象、基本类型**
+* Map 中的键值是有序的（按插入顺序），而添加到对象中的键则不是
+* 通过 size 属性可直接获取一个 Map 的键值对个数，而 Object 的键值对个数只能手动计算
+* **Map 可直接进行迭代**，而 Object 的迭代需要先获取它的键数组，然后再进行迭代
+* Map 在涉及频繁增删键值对的场景下会有些性能优势
+## weakSet与set
+WeakSet 结构与 Set 类似，也是不重复的值的集合
+* **WeakSet 中的元素只能是对象**，不能是其他类型的值
+* WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果该对象不再被其他变量引用，那么垃圾回收机制就会自动回收该对象所占用内存
+* WeakSet 不可遍历
+##  ESModule 对于 Tree-Shaking 有什么优势
+tree shaking 是一个术语，通常用于描述移除 JavaScript的死代码，它依赖于 ES2015 **模块语法的 静态结构 特性**，例如 import 和 export
+##  ES 最新的语法，越新越好
+https://juejin.im/post/5ca2e1935188254416288eb2  
+* ECMAScript 2018中扩展运算符增加了对对象的支持
+````
+var obj1 = { foo: 'bar', x: 42 };
+var obj2 = { foo: 'baz', y: 13 };
 
+var clonedObj = { ...obj1 };
+// 克隆后的对象: { foo: "bar", x: 42 }
+
+var mergedObj = { ...obj1, ...obj2 };
+// 合并后的对象: { foo: "baz", x: 42, y: 13 }
+````
+* 数组includes()方法，用来判断一个数组是否包含一个指定的值
+* startwith、endwith 字符串方法
+* SharedArrayBuffer对象：与ArrayBuffer相似，用来表示一个通用的，固定长度的原始二进制数据缓冲区,不过SharedArrayBuffer**不能被分离**
+* Promise.finally()：在某些情况下，你想要在无论Promise运行成功还是失败，运行相同的代码，例如清除，删除对话，关闭数据库连接等
+* ES10(2019):String去首尾空字符:trimStart()、trimEnd()
+* Object.fromEntries() 
+````
+//将 Array 转化为 Object
+const arr = [ ['0', 'a'], ['1', 'b'], ['2', 'c'] ];
+const obj = Object.fromEntries(arr);
+console.log(obj); // { 0: "a", 1: "b", 2: "c" }
+````

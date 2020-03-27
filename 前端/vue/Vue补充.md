@@ -176,3 +176,20 @@ vue3.0用typescript重构
 new处来的组件实例，vue2.x都会挂载在Vue对象上，无论是否用到，而vue3.0中可以按需引入  
 更好的多端渲染支持:
 例如国内的weex，国外的native vue。在vue3.0中新增了custom Render Api，只需要import {curateRender} from '@vue/runtime-core'
+## Vue首屏优化
+* webpack splitchunks 拆包
+* image-webpack-loader 图片压缩
+* webpack4 的 mini-css-extract-plugin 压缩css
+* uglifyjs压缩js代码
+* 路由懒加载、图片懒加载
+* 按需导入组件
+* gzip压缩
+* cdn加速
+## Vue响应式关于Array的特别处理
+https://cloud.tencent.com/developer/article/1461563
+### 问题
+Object.defineProperty()劫持数组为其设置getter和setter后，调用的数组的push、splice、pop等方法改变数组元素时并不会触发数组的setter，也就无法做到响应式更新  
+根据数组索引改变元素，Vue无法响应，要用到Vue.set
+### 解决
+* **重写数组方法**：拦截了数组的原型，在实现时除了将数组方法名对应的原始方法调用一遍，然后将执行结果返回
+* **手动派发更新**：执行ob.dep.notify()将当前数组的变更通知给其订阅者

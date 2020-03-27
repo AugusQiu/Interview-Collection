@@ -119,3 +119,35 @@ async function doIt() {
 
 doIt();
 ````
+## 一个async函数，然后利用generators和promises去实现相同功能
+````
+async function init(){
+    const res1 = await doTask1();
+
+    const res2 = await doTask2();
+
+    const res3 = await doTask3();
+}
+init();
+````
+````
+function runner(genFn){
+    const iter = genFn();
+
+    return function run(arg){
+       let result = ite.next(arg);
+       if(result.done){
+           return result.value;
+       }else{
+           return Promise.resolve(result.value).then(run);
+       }
+    }
+}  
+
+runner(function* (){
+    const res1 = yield doTask1();
+    const res2 = yield doTask2(res1);
+    const res3 = yield doTask3(res2);
+    return res3;
+})
+````

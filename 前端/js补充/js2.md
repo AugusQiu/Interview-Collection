@@ -182,3 +182,13 @@ function byField(field){
     }
 }
 ````
+## Element 和 Node 的区别
+在DOM中，Node有很多类型，元素(element)、属性(attr)、文本(text)、注释(comments)都可以称为一个节点，用NodeType区分    
+**Element继承了Node类，可以说Element是Node多种类型中的一种**，Element扩展了Node,拥有id、class、children等属性  
+````
+var oDiv=document.getElementById("test");
+console.log(oDiv instanceof Node);        //true
+console.log(oDiv instanceof Element);     //true
+````
+可以看到用document.getElementById("xxx")取到的既是Element也是Node。
+**children是Element的属性，childNodes是Node的属性**
