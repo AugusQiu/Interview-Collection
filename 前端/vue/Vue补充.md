@@ -193,3 +193,11 @@ Object.defineProperty()劫持数组为其设置getter和setter后，调用的数
 ### 解决
 * **重写数组方法**：拦截了数组的原型，在实现时除了将数组方法名对应的原始方法调用一遍，然后将执行结果返回
 * **手动派发更新**：执行ob.dep.notify()将当前数组的变更通知给其订阅者
+## Vue优化SEO
+首先，搜索引擎的基础爬虫的原理就是抓取你的url，然后获取你的html源代码并解析。 而你的页面通常用了vue等js的数据绑定机制来展示页面数据，**爬虫获取到的html是你的模型页面而不是最终数据的渲染页面**，所以说用js来渲染数据对seo并不友好
+* 采用服务端渲染 SSR:后台的 Node.js 环境中完成渲染逻辑，然后将 HTML 视图直接返回给客户端
+* prerender-spa-plugin页面预渲染: 利用了 Puppeteer的爬取页面的功能。 Puppeteer 是一个 Chrome官方出品的 **headlessChromenode**库。它提供了一系列的 API, 可以在无 UI 的情况下调用 Chrome 的功能, 适用于爬虫、自动化处理等各种场景,在 Webpack 构建阶段的最后，在本地启动一个 Puppeteer 的服务，访问配置了预渲染的路由，然后将 Puppeteer 中渲染的页面输出到 HTML 文件中，并建立路由对应的目录
+## Vue如何解析template模板
+* template先被编译成AST语法树
+* 再转化为render函数
+* 最终返回一个VNode(VNode就是Vue的虚拟DOM节点)
