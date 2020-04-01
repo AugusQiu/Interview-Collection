@@ -112,3 +112,7 @@ for(var i = 0; i < cpus.length; i++){
 区别:
 * 宏任务一般是：包括整体代码script，setTimeout，setInterval、setImmediate
 * 微任务：原生Promise(有些实现的promise将then方法放到了宏任务中)、process.nextTick、Object.observe(已废弃)、 MutationObserver记住就行了
+## Cluster/libuv/pm2
+* cluster:fork多个工作子进程，子进程受主进程控制
+* libuv：用于实现进程间IPC通信，windows下是基于命名管道,应用层上体现为message事件和send()方法
+* pm2实现进程守护：node app.js 开启一个服务进程之后，我还可以在这个终端上做些别的事情，且不会相互影响。当出现问题可以自动重启

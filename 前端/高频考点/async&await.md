@@ -135,10 +135,12 @@ function runner(genFn){
     const iter = genFn();
 
     return function run(arg){
-       let result = ite.next(arg);
+     //首先生成器函数返回的是一个遍历器，可以往下next()执行不同阶段，每个阶段有value,done
+       let result = iter.next(arg); 
        if(result.done){
-           return result.value;
+           return result.value; //生成器迭代完了
        }else{
+           //没有迭代到最后一个阶段，比如第一个阶段，异步返回值后，才能执行then方法捕获，第二个阶段再next()
            return Promise.resolve(result.value).then(run);
        }
     }
