@@ -33,61 +33,50 @@ app.listen(3000);
 // 2
 ````
 第一个中间件函数中如果执行了 next，则下一个中间件会被执行，依次类推
-## 准备工作
-先创建一个app对象暂时替代Koa的实例对象，并添加use方法和管理中间件的数组middlewares
+## 简单实现
 ````
-/app.js
-
-const app ={
-    middlewares:[]
-}
-
-app.use = function(fn){
-    app.middlewares.push(fn)
-}
-
-//app compose...
-module.exports = app;
-````
-## compose 同步实现
-Koa源码中是通过koa-compose中间件来实现的，这里我们将模块的核心逻辑抽取出来，由于重点compose的原理，所以ctx参数去掉，重点观察next
-````
-app.compose = function(){
-    //递归函数
-    function dispatch(index){
-        //如果所有中间件都执行完了就跳出
-        if(index===app.middlewares.length) return;
-        
-        //取出第index个中间件并执行
-        const route = app.middlewares[index];
-        return route(() => dispatch(index + 1));
-
+const app = {
+    middlewares:[],
+    //use方法模拟使用中间件
+    use(fn){
+      this.middlewares.push(fn)
     }
-    // 取出第一个中间件函数执行
-    dispatch(0);
 }
-````
-上面是同步的实现，通过递归函数 dispatch 的执行取出了数组中的第一个中间件函数并执行，在执行时传入了一个函数，并递归执行了 dispatch，传入的参数 +1，这样就执行了下一个中间件函数，依次类推，直到所有中间件都执行完毕，不满足中间件执行条件时，会跳出
-## 升级为异步支持
-````
-app.compose = function(){
-    //递归函数
-    function dispatch(index){
-        //如果所有中间件都执行完就跳出，并返回一个Promise
-        if(index === app.middlewares.length) return Promise.resolve();
 
-        //取出第index个中间件并执行
-        const route = app.middlewares[index];
-
-        // 执行后返回成功态的 Promise
-        return Promise.resolve(route(() => dispatch(index + 1)));
+//compose：串联每个函数，使用下标递增，并递归至最后一个函数结束
+app.compose = function(middlewares){
+    return async function(){
+      await dispath(0);
+      async function dispath(idx){
+         if (idx === app.middlewares.length) return;
+         const fn = middlewares[idx];
+         await fn(function next() {
+                
+                dispath(idx + 1);
+         });
+      }
     }
-    
-    //取出第一个中间件函数执行
-    dispatch(0);
 }
+
+
+app.use(function (next) {
+    console.log(1);
+    next();
+    console.log(1.1)
+})
+app.use(function (next) {
+    console.log(2);
+    next();
+    console.log(2.2);
+
+})
+app.use(function (next) {
+    console.log(3);
+    next();
+    console.log(3.3);
+});
+app.compose()(); 
 ````
-async函数中await后面执行的异步代码要先阻塞等待，等异步执行完成后，才会继续向下执行，需要等待 Promise，所以我们将每一个中间件函数在调用时最后都返回了一个成功态的 Promise
 
 ## PS:Koa2源码分析
 ````
