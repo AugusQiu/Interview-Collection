@@ -5,7 +5,18 @@
      </head>
   <body>
      <script>
-
+      var removeDuplicates = function(nums) {
+      let index = 0
+      for( let i=0,len=nums.length; i<len; i++ ){
+        if( nums[i] != nums[i+1] ) {
+            nums[index] = nums[i]
+            console.log(nums)
+            index++
+         }
+      }
+       return index
+      };
+      removeDuplicates([0,0,1,1,1,2,2,3,3,4]) 
      </script>
   </body>
  </html>
