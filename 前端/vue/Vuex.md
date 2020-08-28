@@ -83,3 +83,8 @@ computed:{
     }
 }
 ````
+## 工作原理
+https://tech.meituan.com/2017/04/27/vuex-code-analysis.html  
+* vuex就像一个没有template的vue组件
+* vuex数据存储在内存中，页面刷新即消失
+* Vuex的state状态是响应式，是借助vue的data是响应式，将state存入vue实例组件的data中；Vuex的getters则是借助vue的计算属性computed实现数据实时监听
