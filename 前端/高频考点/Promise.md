@@ -115,3 +115,43 @@ Promise
 });
 ````
 假设runAsync1是异步请求一张图片，runAsync2是一个延时5秒的操作，他俩儿赛跑，如果5秒内图片请求成功，就进入then方法，否则打印错误
+## 手写all和race方法
+### all
+````
+Promise.all = function (iterator) {  
+    let count = 0
+    let len = iterator.length
+    let res = []
+    return new Promise((resolve,reject) => {
+        for(const item of iterator){
+            Promise.resolve(item)
+            .then((data) => {
+                res[count++] = data
+                if(count === len){
+                    resolve(res)
+                }
+            })
+            .catch(e => {
+                reject(e)
+            })
+        }
+    })
+}
+````
+### race
+````
+Promise.race = function (iterators) {  
+    return new Promise((resolve,reject) => {
+        for (const p of iterators) {
+            Promise.resolve(p)
+            .then((res) => {
+                resolve(res)
+            })
+            .catch(e => {
+                reject(e)
+            })
+        }
+    })
+
+}
+````

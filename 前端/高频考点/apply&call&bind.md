@@ -58,7 +58,7 @@ demo.showclass2.apply(this,arr) //class2:2,2
 Function.prototype.ownCall = function(context,...args){
     context = (typeof context === 'object' ? context : window)
     const key = Symbol()  // 防止覆盖掉原有属性
-    context[key] = this   // 这里的this为需要执行的方法
+    context[key] = this   // 这里的this为需要执行的方法,即本示例中测试方法fun
     const result = context[key](...args)
     delete context[key]
     return result
