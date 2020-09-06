@@ -39,3 +39,20 @@
 ````
 * A里没有a,所以得到原型里去找，所以第一个打印1
 * B、C里都有a属性，就不用去原型里找，B传了undefined，C传了2，于是第二个打印undefined，第三个打印2
+## 构造函数内直接定义的方法和prototype属性上的方法的对比
+https://blog.csdn.net/weixin_38098192/article/details/80582352
+````
+function A(){
+    this.name = name
+    this.showName = function(){
+      ......
+    }
+}
+A.prototype.showName = function(){
+
+}
+````
+### 区别
+> 直接定义在构造函数内部的方法，会在它的每一个实例上都克隆这个方法；定义在构造函数的 prototype 属性上的方法会让它的所有示例都共享这个方法
+
+> 在函数prototype属性上定义方法，改变这个方法，所有实例对象都会改变
