@@ -5,23 +5,6 @@
      </head>
   <body>
      <script>
-        Function.prototype.ownCall = function(context,...args){
-    context = (typeof context === 'object' ? context : window)
-    const key = Symbol()  // 防止覆盖掉原有属性
-    context[key] = this   // 这里的this为需要执行的方法
-    const result = context[key](...args)
-    delete context[key]
-    return result
-}
-
-//验证
-function fun(arg1, arg2) {
-  console.log(this.name)
-  console.log(arg1 + arg2)
-}
-const _this = { name: 'YIYING' }
-// 接受的是一个参数列表 方法立即执行
-fun.ownCall(_this, 1, 2)
      </script>
   </body>
  </html>
