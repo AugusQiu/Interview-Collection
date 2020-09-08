@@ -23,7 +23,8 @@ function debounce(fn,wait){
         }
 
         timer = setTimeout(function(){
-            fn.apply(context,args)
+            // 如果 debounce 内部直接以fn()方式调用原函数，会导致原函数的内部 this 指向发生变化
+            fn.apply(context,args) 
         },wait)
     }
 }

@@ -177,7 +177,7 @@ function Cat(age,name){
     console.log('cat: age:'+age+",name:"+name);
 }
 var cat=new Cat(4,'Bob');    //输出:Cat {name: "cat"}和cat: age:4,name:Bob
-Cat.call(this,3,'Tom');     //由于调用了call方法，输出：this指向了Window和cat: age:3,name:Tom
+Cat.call(this,3,'Tom');     //由于调用了call方法, this指向了Window  输出：cat: age:3,name:Tom
 ````
 4.2 **apply(this指针要指向的对象,参数数组或arguments对象)**
 关于arguments内置对象:https://zhuanlan.zhihu.com/p/23007032  
@@ -189,11 +189,11 @@ function Cat(age,name){
     console.log('cat: age:'+age+",name:"+name);
 }
 var cat=new Cat(4,'Bob');    //输出:Cat {name: "cat"}和cat: age:4,name:Bob
-Cat.apply(this,[3,'Tom']);     //由于调用了apply方法，输出：this指向了Window和cat: age:3,name:Tom
+Cat.apply(this,[3,'Tom']);     //由于调用了apply方法,this指向了Window  输出：cat: age:3,name:Tom
 function getCat(age,name){
     Cat.apply(this, arguments);    //arguments包含了函数的参数
 }
-getCat(5,"kitty");           //由于调用了apply方法，输出：this指向了Window和cat: age:5,name:kitty
+getCat(5,"kitty");           //由于调用了apply方法,this指向了Window  输出：cat: age:5,name:kitty
 ````
 4.3 **bind(this指针要指向的对象)**,bind这个方法会创建一个函数的实例，其this会被**绑定**到传给 bind()函数参数
 ````
