@@ -9,7 +9,7 @@ https://juejin.im/post/5be4f163f265da61483b1b08
 //前端代码
 function jsonp(req){
     var script = document.createElement('script');
-    var url = req.url+'?callback='+req.callback.name;
+    var url = req.url+'?callback='+req.callback;
     document.getElementsByTagName('head')[0].appendChild(script);
 }
 
