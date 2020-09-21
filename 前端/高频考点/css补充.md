@@ -109,6 +109,3 @@ div
 	100% {background:green;}
 }
 ````
-## @import和link导入样式表的区别
-* @import是 CSS 提供的语法规则，只有导入样式表的作用；link是HTML提供的标签，不仅可以加载 CSS 文件，还可以定义 RSS、rel 连接属性等
-* 加载页面时，link标签引入的 CSS 被同时加载；@import引入的 CSS 将在页面加载完毕后被加载
