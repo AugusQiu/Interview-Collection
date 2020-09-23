@@ -12,39 +12,27 @@
    <div>
   </body>
   <script>
-    const jsonp = function(url,data){
-  return new Promise((resolve,reject)=>{
-
-    //初始化url
-    let urlString = url.indexOf('?') === -1 ? '?':'&'
-    let callbackName = `cbFn` 
-    url += `${urlString}callback=${callbackName}`
-    if(data){
-      for(let k in data){
-          url+=`&${k}=${data[k]}`
-      }
-    }   
-
-    let jsNode = document.createElement('script')
-    jsNode.src = url
-    document.body.appendChild(jsNode)
-
-    window[callbackName] = result =>{
-      delete window[callbackName]
-      document.body.removeChild(jsNode)
-      if (result) {
-        resolve(result)
-      } else {
-        reject('没有返回数据')
-      }
-    }
-    
-  })
+    function Foo(a){
+    this.a = a
+}
+Foo.prototype.getA = function(){
+    return this.a
+}
+ function Bar(a,b){
+  Foo.call(this,a)
+  this.b = b
 }
 
-jsonp('http://192.168.0.103:8081/jsonp', 
-    {a: 1, b: 'ha'})
-  .then(result => { console.log(result) })
-  .catch(err => { console.error(err) })
+Bar.prototype  = Object.create(Foo.prototype,{
+  constructor:{
+    value:Bar
+  }
+})
+Bar.prototype.getB = function(){
+    return this.b
+}
+let bar = new Bar(5,6)
+console.log(bar.getA()) 
+console.log(bar.getB())
   </script>
  </html>
