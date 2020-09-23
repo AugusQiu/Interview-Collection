@@ -10,6 +10,7 @@ https://juejin.im/post/5be4f163f265da61483b1b08
 function jsonp(req){
     var script = document.createElement('script');
     var url = req.url+'?callback='+req.callback;
+    script.src = url
     document.getElementsByTagName('head')[0].appendChild(script);
 }
 
