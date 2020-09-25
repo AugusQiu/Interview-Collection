@@ -12,27 +12,18 @@
    <div>
   </body>
   <script>
-    function Foo(a){
-    this.a = a
-}
-Foo.prototype.getA = function(){
-    return this.a
-}
- function Bar(a,b){
-  Foo.call(this,a)
-  this.b = b
-}
-
-Bar.prototype  = Object.create(Foo.prototype,{
-  constructor:{
-    value:Bar
-  }
-})
-Bar.prototype.getB = function(){
-    return this.b
-}
-let bar = new Bar(5,6)
-console.log(bar.getA()) 
-console.log(bar.getB())
+  var printSymmetryNumber = function (num) {
+    let res = []
+    for(let i=1;i<=num;i++){
+        let str = i+''
+        let reverseStr = str.split('').reverse().join('')
+        if(str == reverseStr){
+            res.push(i)
+        }
+      
+    }
+    return res
+};
+console.log(printSymmetryNumber(100))
   </script>
  </html>
