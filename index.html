@@ -12,20 +12,5 @@
    <div>
   </body>
   <script>
-            document.addEventListener("DOMContentLoaded", function (event) {
-                console.log("DOM结构加载解析完成2");
-            });
-    
-            document.onreadystatechange = function () {
-                if(document.readyState  === 'interactive'){
-                    console.log('DOM结构加载解析完成1')
-                }
-                if (document.readyState === "complete") {
-                    console.log('子资源也加载解析完成')
-                }
-            }
-             window.addEventListener("load", function (event) {
-                console.log("所有资源加载完成");
-            });
   </script>
  </html>
