@@ -83,6 +83,28 @@ console.log(flatten(arr));
 ## js有哪些内置对象
 数据封装类对象：Object、Array、Boolean、Number、String  
 其他对象：Function、Arguments、Math、Date、RegExp、Error
+## Boolean和boolean的区别是什么？
+明确：**Boolean是一个对象包装器，boolean为基本类型。即Boolean会将第一个参数传递的值进行包装，返回一个布尔值**
+````
+Boolean(0)         //false
+Boolean(null)      //false
+Boolean(false)     //false
+Boolean(NaN)       //false
+Boolean(undefined) //false
+Boolean("")        //false
+
+Boolean("false")   //true
+Boolean([])        //true
+````
+**new Boolean的时候，传递给条件语句都会被计算为true**
+````
+var x = new Boolean(false);
+if (x) {
+  // 这里的代码会被执行
+}
+
+打印x，是一个实例对象，而不是true或false，但是使用document.write(x) 却是 false
+````
 ## 遍历 company 对象，输出里面每一项的值
 ````
 var company = {
