@@ -110,7 +110,7 @@ Promise.prototype.finally = function(onFinally) {
 ## Proxy原理
 Proxy是构造函数，第一个参数target指向被拦截的对象，第二个参数handler是句柄(定义操作方法的一个集合),返回的是一个新代理后的对象 
 ## WeakMap和Map的性能有什么差别?
-* weakMapZ只接受对象作为键名(null)
+* weakMap只接受对象作为键名(null)
 * **键名所引用的对象都是弱引用，不计入垃圾回收机制**
 WeakMap 应用的典型场合就是 DOM 节点作为键名
 ### Map跟对象的区别
