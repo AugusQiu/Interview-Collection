@@ -110,10 +110,11 @@ Promise.prototype.finally = function(onFinally) {
 ## Proxy原理
 Proxy是构造函数，第一个参数target指向被拦截的对象，第二个参数handler是句柄(定义操作方法的一个集合),返回的是一个新代理后的对象 
 ## WeakMap和Map的性能有什么差别?
-* weakMap只接受对象作为键名(null)
+* weakMap只接受对象作为键名(不包括null)
 * **键名所引用的对象都是弱引用，不计入垃圾回收机制**
 WeakMap 应用的典型场合就是 DOM 节点作为键名
 ### Map跟对象的区别
+https://segmentfault.com/a/1190000015774465  
 * **Object 键只能是 String 或者 Symbol，但 Map 键可以是任意值，包括函数、对象、基本类型**
 * Map 中的键值是有序的（按插入顺序），而添加到对象中的键则不是
 * 通过 size 属性可直接获取一个 Map 的键值对个数，而 Object 的键值对个数只能手动计算
@@ -123,7 +124,7 @@ WeakMap 应用的典型场合就是 DOM 节点作为键名
 WeakSet 结构与 Set 类似，也是不重复的值的集合
 * **WeakSet 中的元素只能是对象**，不能是其他类型的值
 * WeakSet 中的对象都是弱引用，那么垃圾回收机制就会自动回收该对象所占用内存
-* WeakSet 不可遍历
+* WeakSet 不可遍历  
 ````
 var obj = {};
 var wm = new WeakMap();
@@ -134,8 +135,24 @@ console.log(wm.get(obj));    // 1
 // obj为null或其他对象，将会给垃圾回收机制回收
 obj = null;
 console.log(wm.get(obj));    // undefined
+
+obj = {a:'1'}
+console.log(wm.get(obj))   // undefined
 ````
-**弱引用：引用了对象，但是不影响它的垃圾回收**
+**弱引用：引用了对象，但是不影响它的垃圾回收**  
+对比一下Map
+````
+var m   = new Map();
+let obj = new Object()
+
+// 建立了map对obj所引用对象的强引用
+m.set(obj, 1);
+console.log(m.get(obj));    // 1
+
+// 不会导致obj的原引用对象被回收
+obj = null
+console.log(m.get(obj))  //undefined
+````
 ##  ESModule 对于 Tree-Shaking 有什么优势
 tree shaking 是一个术语，通常用于描述移除 JavaScript的死代码，它依赖于 ES2015 **模块语法的 静态结构 特性**，例如 import 和 export
 ##  ES 最新的语法，越新越好
