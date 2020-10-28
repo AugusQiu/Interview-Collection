@@ -119,7 +119,7 @@ console.log(testValue);			// "outer"
 ````
 var testValue = 'outer';
 function foo() {
-  console.log(testValue);		// "inner"
+  console.log(testValue);		// "outer"
 }
 function bar() {
   var testValue = 'inner'; 
