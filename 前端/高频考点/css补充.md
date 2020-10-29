@@ -109,3 +109,75 @@ div
 	100% {background:green;}
 }
 ````
+## 两栏布局（左侧固定，右侧自适应）
+https://juejin.im/post/6844903783542030350  
+````
+//html结构
+<div class="container">
+  <div class="left"></div>
+  <div class="right"></div>
+</div>
+````
+### 双浮动+calc属性
+````
+//清楚浮动
+.container::after{
+	content: "";
+	display: block;
+	clear: both;
+}
+.left,.right{
+	float:left;
+}
+.right{
+	width:calc(100% - 120px);
+}
+````
+### float + margin-left方案
+* block的元素盒子宽度具有填满父容器，并随着父容器的宽度自适应的流动特性
+* block元素和浮动元素并排时, block元素会忽视浮动元素
+* 因此给左侧盒子浮动, 右侧设置margin-left保持距离即可
+````
+.container::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    margin-left: 120px;
+}
+````
+### float + BFC
+这种方法不用计算宽度, 原理是**BFC可以阻止元素被浮动元素覆盖**
+````
+.container::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    margin-left: 0;
+    overflow: auto;
+}
+````
+### flex方案
+**右侧盒子设置flex:1,即可自动填满宽度**
+````
+.container {
+    display: flex;
+}
+
+.right {
+    flex: 1
+}
+````
