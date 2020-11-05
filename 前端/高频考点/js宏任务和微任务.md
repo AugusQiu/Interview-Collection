@@ -73,6 +73,40 @@ setTimeout(function() {
 })
 上面这个复杂示例执行顺序：1、7、6、8、2、4、3、5、9、11、10、12
 ````
+````
+<div id="div">
+  begin
+</div>
+setTimeout(function() {
+    alert(' ui 已经渲染完毕了吗？ ');
+    console.log('timeout1');
+    new Promise(function(resolve) {
+        console.log('promise3');
+        resolve();
+        console.log('promise4');
+    }).then(function() {
+        alert(' 为什么这里ui已经渲染成finally了 ');
+        console.log('then2');
+    })
+    document.getElementById('div').innerHTML = 'finally';
+})
+
+new Promise(function(resolve) {
+    console.log('promise1');
+    resolve();
+    console.log('promise2');
+}).then(function() {
+    console.log('then1');
+    alert(' ui 开始渲染? ');
+    console.log(document.getElementById('div').innerHTML)
+    alert(' ui 开始渲染 ');
+})
+
+console.log('global1');
+document.getElementById('div').innerHTML = 'end';
+console.log(document.getElementById('div').innerHTML)
+````
+输出：promise1 -> promise2 -> global1 -> end -> then1 -> ui 开始渲染? -> end -> ui 开始渲染 -> ui 已经渲染完毕了吗？ -> timeout1 -> promise3 -> promise4 -> 为什么这里ui已经渲染成finally了 -> then2
 ## 宏任务、微任务分类
 执行环境区分浏览器和node
 ### 浏览器、node相同点
