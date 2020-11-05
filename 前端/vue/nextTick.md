@@ -25,11 +25,12 @@ export default {
   methods:{
     testClick:function(){
         
-      this.testMsg="修改后的值";
-      console.log(that.$refs.btn.innerText);   //输出：原始值
+      //双向绑定页面msg的文字变了,但是通过dom获取还是输出"原始值"
+      this.testMsg="修改后的值";  
+      console.log(this.$refs.btn.innerText);  
 
-      this.$nextTick(function(){  //不使用this.$nextTick()方法会报错
-         console.log(that.$refs.btn.innerText);  //输出：修改后的值
+      this.$nextTick(()=>{  //不使用this.$nextTick()方法会报错
+         console.log(this.$refs.btn.innerText);  //输出：修改后的值
       });
     },
   }
