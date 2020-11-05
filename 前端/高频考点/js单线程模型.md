@@ -28,3 +28,49 @@ Wikipedia的定义是：“Event Loop是一个程序结构，用于等待和发�
 * 异步任务:不进入JavaScript执行线程、而进入“任务队列”(task queue)的任务，只有“任务队列”通知主线程，某个异步任务可以执行了，该任务(采用回调函数的形式)才会进入JavaScript线程执行
 
 虽然JavaScript只有一个线程用来执行，但是并行的还有其他线程(比如，处理定时器的线程、处理用户输入的线程、处理网络通信的线程等等)这些线程通过向任务队列添加任务，实现与JavaScript线程通信.
+## 浏览器和node的事件循环的区别
+https://www.imooc.com/article/79674
+### 任务类型的区别
+**浏览器环境下的异步任务就分为宏任务和微任务**
+* 宏任务：script代码、setTimeout、setInterval、I/O、UI render
+* 微任务：Promise的then和catch, MutationObserver
+><font color="red">注意点</font>：每个script中的代码是一个独立的task, 即会执行完前面的script中创建的 microTask后，再执行后面的script中的同步代码  
+
+**node环境的任务类型** 
+* 微任务
+* process.nextTick
+* timers:setTimeout、setInterval
+* I/O callbacks:是否有已完成的 I/O 操作的回调函数，来自上一轮的 poll 残留
+* poll:等待还没完成的 I/O 事件，会因 timers 和超时时间等结束等待
+* check:执行 setImmediate 的回调
+* close callbacks:关闭所有的 closing handles ，一些 onclose 事件
+
+简而言之，node的宏任务队列:**Timers Queue、I/O Queue、Check Queue 和 Close Queue**  
+
+循环中进行的操作：
+* 清空当前循环内的 Timers Queue，清空 NextTick Queue，清空 Microtask Queue；
+
+* 清空当前循环内的 I/O Queue，清空 NextTick Queue，清空 Microtask Queue；
+
+* 清空当前循环内的 Check Queue，清空 NextTick Queue，清空 Microtask Queue；
+
+* 清空当前循环内的 Close Queue，清空 NextTick Queue，清空 Microtask Queue；
+
+进入下轮循环。
+````
+//浏览器环境
+while(true){
+   macroTaskQueue.shift()
+   microTaskQueue清空
+}
+
+//node环境
+while (true) {
+    loop.forEach((阶段) => {
+        当前阶段全部任务();
+        nextTick全部任务();
+        microTask全部任务();
+    });
+    loop = loop.next;
+}
+````
