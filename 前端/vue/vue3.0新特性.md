@@ -60,7 +60,7 @@ class Observables{
    }
 }
 ````
-## Vue3.0的Composition API(组测API)
+## Vue3.0的Composition API(组合API)
 [Vue3 Composition API使用教程](https://juejin.im/post/6844904066103902215)
 ### setup
 setup是vue新增的一个生命周期，它是组件内使用Composition API的入口，**它在beforeCreate之后、created之前执行**,用了setup，就不要使用data了，setup也获取不到data里面的值，setup()打印this是undefined
