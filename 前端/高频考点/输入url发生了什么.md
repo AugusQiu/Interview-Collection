@@ -101,7 +101,7 @@ https://juejin.im/post/6844904083212468238
 ## script async和defer属性区别
 1. 没有defer或async,浏览器会立即加载和执行指定脚本，而不等待后续载入的文档元素
 2. 有async,加载script标签后续的文档元素和加载、执行script并行进行，**script加载时不阻塞，执行时会阻塞DOM解析**
-3. 有defer,**跟async一样，异步加载script，不影响DOM的解析，而且，它的执行在所有DOM解析完成后，onload回调触发前执行**
+3. 有defer,**跟async一样，异步加载script，不影响DOM的解析，而且，它的执行在所有DOM解析完成后，DOMContentLoaded触发前执行**
 
 ## 6.连接结束关闭TCP链接
 TCP四次挥手
