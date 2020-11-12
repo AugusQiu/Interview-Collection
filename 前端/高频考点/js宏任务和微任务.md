@@ -74,6 +74,27 @@ setTimeout(function() {
 上面这个复杂示例执行顺序：1、7、6、8、2、4、3、5、9、11、10、12
 ````
 ````
+setImmediate(function(){
+    console.log(1)
+},0)
+setTimeout(function(){
+    console.log(2)
+},2)
+new Promise(function(resolve){
+    console.log(3)
+    resolve()
+    console.log(4)
+}).then(function(){
+    console.log(5)
+})
+console.log(6)
+process.nextTick(function(){
+    console.log(7)
+})
+console.log(8)
+// 输出：3 4 6 8 7 5 2 1
+````
+````
 <div id="div">
   begin
 </div>
