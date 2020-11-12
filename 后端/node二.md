@@ -24,7 +24,20 @@ var module = new Module(filename, parent);
 ## 加载模块时，为什么每个模块都有__dirname,__filename属性呢，new Module的时候我们看到是没有这两个属性的，那么这两个属性是从哪里来的
 每个module里面都会传入__filename, __dirname参数，这两个参数并不是module本身就有的，是外界传入的
 ## node导出模块有两种方式，一种是exports.xxx=xxx和Module.exports={}有什么区别吗
-exports其实就是module.exports
+exports其实就是module.exports    
+**当直接给exports赋值一个对象，它就会指向一块新的无效内存，module.exports永远指向本来的内存**
+````
+module.exports = { name:'qgq'}
+exports = {name:'xyz'}
+
+let p  = require('./person')
+console.log(p)  //输出：{ name:'qgq'}
+````
+````
+exports = { name:'xyz'}  //无效内存
+let p2 = require('./person')
+console.log(p) //输出：{}
+````
 ## 介绍一下node事件循环(event loop)的过程
 * 在进程启动时，Node会创建一个类似于while(true)的循环，每执行一次循环体的过程我们成为Tick
 * 每个Tick的过程就是查看任务队列中是否有事件待处理。如果有就取出事件及其相关的回调函数
