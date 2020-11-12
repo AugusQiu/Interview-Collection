@@ -18,7 +18,22 @@
 ````
 * A.a 先在A中找，因为没有直接定义静态属性A.a，所以A中找不到；但A也是Function的实例，就会找到Function.prototype上面，Function.prototype中有a
 * a是A的实例了，跟Function这个内置的构造器就没什么关系了，A.prototype.a没有，就只能到顶层的Object.prototype去找，Object.prototype没a只有b
-
+````
+````
+````
+Object.prototype.a = 'Object'
+Function.prototype.a = 'Functon'
+function Person(){ }
+let child = new Person()
+console.log(child.a)  // Object
+console.log(Person.a) // Function
+console.log(child.__proto__)  //Person.prototype
+console.log(child.__proto__.__proto__)  //Object.prototype (function.__proto__ == Function.prototype)
+console.log(child.__proto__.__proto__.constructor) // Object
+console.log(child.__proto__.__proto__.constructor.constructor) //Function
+console.log(child.__proto__.__proto__.constructor.constructor.constructor) // Function
+````
+````
 ````
     function A() {}
     function B(a) {
