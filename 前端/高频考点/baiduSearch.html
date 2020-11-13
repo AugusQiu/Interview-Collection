@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>百度搜索框</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap-box{
+            width: 300px;
+            margin:0 auto;
+        }
+        .flex-box{
+           display: flex;
+        }
+        #key-box{
+            width:100%;
+        }
+        #txtBox>p{
+          border:1px solid gray;
+        }
+        #txtBox>p:hover{
+          background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap-box">
+        <div class="flex-box">
+            <input type="text" placeholder="请输入关键字" id="key-box">
+        </div>
+        <div class="list-box"></div>
+    </div>
+    <script>
+        let keyBox = document.getElementById('key-box')
+        let listBox = document.querySelector('.list-box')
+        let words = ['大大大','大奉打更人','大厂',]
+
+        function search(){
+           if(document.getElementById('txtBox')){
+               listBox.removeChild(document.getElementById('txtBox'))
+           }
+           
+           let keyword  = this.value
+           let tempWords= [] 
+           for(let word of words){
+               if(word.startsWith(keyword)){
+                   tempWords.push(word)
+               }
+           }
+            
+           if(this.value =='' || tempWords.length==0){
+              if(document.getElementById('txtBox')){
+                listBox.removeChild(document.getElementById('txtBox'))
+              }
+              return
+           }
+
+           let txtBox = document.createElement('div')
+           txtBox.id  = 'txtBox'
+           listBox.appendChild(txtBox)
+
+           for(let i=0;i<tempWords.length;i++){
+               let txt = document.createElement('p')
+               txt.innerText = tempWords[i]
+               txt.onclick = function(){
+                   keyBox.value = this.innerText
+               }
+               txtBox.appendChild(txt)
+           }
+        }
+
+        function debounce(fn,wait){
+            let timer = null
+            return function(){
+                let _this = this
+                if(timer){
+                    timer = null
+                    clearTimeout(timer)
+                }
+                timer = setTimeout(function(){
+                    fn.apply(_this)
+                },wait)
+            }
+        }
+        keyBox.oninput = debounce(search,2000)
+    </script>
+</body>
+</html>
