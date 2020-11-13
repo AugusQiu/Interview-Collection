@@ -37,7 +37,7 @@
     <script>
         let keyBox = document.getElementById('key-box')
         let listBox = document.querySelector('.list-box')
-        let words = ['大大大','大奉打更人','大厂',]
+        let words = ['大大大','大奉打更人','大厂','哈哈','阿里','腾讯']
 
         function search(){
            if(document.getElementById('txtBox')){
@@ -66,10 +66,12 @@
            for(let i=0;i<tempWords.length;i++){
                let txt = document.createElement('p')
                txt.innerText = tempWords[i]
-               txt.onclick = function(){
-                   keyBox.value = this.innerText
-               }
                txtBox.appendChild(txt)
+           }
+
+           //利用事件委托优化，监听词条click事件
+           txtBox.onclick =function(e){
+             keyBox.value = e.target.innerText
            }
         }
 
