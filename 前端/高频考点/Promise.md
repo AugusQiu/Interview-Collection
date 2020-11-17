@@ -52,8 +52,9 @@ promise.then((data)=>{
 
 ### catch方法
 reject的回调除了能通过then方法的第二个参数里面获得，更可以通过catch方法捕捉   
-区别在哪?  
-then的第二个参数和catch捕获错误信息的时候遵循**就近原则**，如果是promise内部报错，reject抛出错误后，then的第二个参数和catch方法都存在的情况下，只有then的第二个参数能捕获到，如果then的第二个参数不存在，则catch方法会捕获到
+区别在哪?     
+如果是promise的同步代码抛出错误，then的第二个参数和catch捕获错误信息的时候遵循**就近原则**，then的第二个参数和catch方法都存在的情况下，只有then的第二个参数能捕获到；then的第二个参数不存在，则catch方法会捕获到
+**如果then的方法里抛出了异常，后面的catch能捕获到，而then的第二个函数捕获不到**
 ````js
 const promise = new Promise((resolve, rejected) => {
     throw new Error('抛出异常了');
@@ -75,29 +76,17 @@ promise.then(res => {
 }).catch(err1 => {
     console.log(err1);
 });
-
-//此时只有then的第二个参数可以捕获到Promise内部抛出的错误信息
+````
+````js
+const promise = new Promise((resolve, rejected) => {
+    resolve(1)
+});
 promise.then(res => {
     throw new Error('hello');
 }, err => {
     console.log(err);
 }).catch(err1 => {
-    console.log(err1);
-});
-
-//此时只有then的第二个参数可以捕获到Promise内部抛出的错误信息
-promise.then(res => {
-    throw new Error('hello');
-}, err => {
-    console.log(err);
-});
-
-
-//此时catch可以捕获到Promise内部抛出的错误信息
-promise.then(res => {
-    throw new Error('hello');
-}).catch(err1 => {
-    console.log(err1);
+    console.log(err1); //走then方法，抛出的异常，只有catch能捕获
 });
 ````
 ### all的用法
