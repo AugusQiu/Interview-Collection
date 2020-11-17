@@ -52,14 +52,53 @@ promise.then((data)=>{
 
 ### catch方法
 reject的回调除了能通过then方法的第二个参数里面获得，更可以通过catch方法捕捉   
-区别在哪?在执行resolve的回调（也就是上面then中的第一个参数）时，如果抛出异常了（代码出错了），那么并不会报错卡死js，而是会进到这个catch方法中
-````
-promise.then((data)=>{
-    console.log(data);
-    console.log(10/0); //0不能作为整除分母，会报错
-}).catch((err)=>{
-    console.log(err); //catch方法却依然会执行，并且会捕获异常
-})
+区别在哪?  
+then的第二个参数和catch捕获错误信息的时候遵循**就近原则**，如果是promise内部报错，reject抛出错误后，then的第二个参数和catch方法都存在的情况下，只有then的第二个参数能捕获到，如果then的第二个参数不存在，则catch方法会捕获到
+````js
+const promise = new Promise((resolve, rejected) => {
+    throw new Error('抛出异常了');
+});
+
+//此时只有then的第二个参数可以捕获到错误信息
+promise.then(res => {
+
+}, err => {
+    console.log(err);
+}).catch(err1 => {
+    console.log(err1);
+});
+
+
+//此时catch方法可以捕获到错误信息
+promise.then(res => {
+
+}).catch(err1 => {
+    console.log(err1);
+});
+
+//此时只有then的第二个参数可以捕获到Promise内部抛出的错误信息
+promise.then(res => {
+    throw new Error('hello');
+}, err => {
+    console.log(err);
+}).catch(err1 => {
+    console.log(err1);
+});
+
+//此时只有then的第二个参数可以捕获到Promise内部抛出的错误信息
+promise.then(res => {
+    throw new Error('hello');
+}, err => {
+    console.log(err);
+});
+
+
+//此时catch可以捕获到Promise内部抛出的错误信息
+promise.then(res => {
+    throw new Error('hello');
+}).catch(err1 => {
+    console.log(err1);
+});
 ````
 ### all的用法
 Promise的all方法提供了**并行执行异步操作**的能力，并且在所有异步操作执行完后才执行回调  
