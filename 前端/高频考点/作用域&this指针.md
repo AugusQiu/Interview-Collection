@@ -95,7 +95,7 @@ for(var i = 0; i < 5; i++) {
 ````
 解决办法3:最简单的就是变var关键字为let关键字，从而创建块级作用域  
 4.词法作用域  
-````
+````js
 testValue = 'outer';
 function afun() {
   var testValue = 'middle';
@@ -110,6 +110,45 @@ function afun() {
 
 afun();
 console.log(testValue);			// "outer"
+````
+````js
+var x = 10
+bar() 
+function foo() {
+  console.log(x)
+}
+function bar() {
+  var x = 30
+  foo() //10
+}
+````
+````js
+var name = '123';
+var obj = {
+    name: '456',
+    getName: function () {
+        function printName() {
+            console.log(this.name)    ;
+        }
+        printName();
+    }
+}
+obj.getName();  // 123
+````
+````js
+var name = '123';
+var obj = {
+    name: '456',
+    getName: function () {
+        var _this = this
+        function printName() {
+            console.log(_this.name)    ;
+        }
+
+        printName();
+    }
+}
+obj.getName();  //456
 ````
 当我们要使用声明的变量时：JS引擎总会从最近的一个域开始向外层域查找  
 5.动态作用域  
