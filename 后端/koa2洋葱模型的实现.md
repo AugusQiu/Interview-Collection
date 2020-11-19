@@ -50,9 +50,9 @@ app.compose = function(middlewares){
       async function dispath(idx){
          if (idx === app.middlewares.length) return;
          const fn = middlewares[idx];
+
          await fn(function next() {
-                
-                dispath(idx + 1);
+            dispath(idx + 1);
          });
       }
     }
@@ -75,40 +75,5 @@ app.use(function (next) {
     next();
     console.log(3.3);
 });
-app.compose()(); 
+app.compose(app.middlewares)(); 
 ````
-
-## PS:Koa2源码分析
-````
-function compose (middleware) {
-  return function (context, next) {
-    // last called middleware #
-    let index = -1
-    return dispatch(0)
-    
-    function dispatch (i) {
-      if (i <= index) return Promise.reject(new Error('next() called multiple times'))
-      index = i
-      let fn = middleware[i]
-      if (i === middleware.length) fn = next
-      if (!fn) return Promise.resolve()
-      try {
-        return Promise.resolve(fn(context, function next () {
-          return dispatch(i + 1)
-        }))
-      } catch (err) {
-        return Promise.reject(err)
-      }
-    }
-  }
-}
-````
-比较关键的就是这个dispatch函数了，它将遍历整个middleware，然后将context和dispatch(i + 1)传给middleware中的方法
-````
-return Promise.resolve(fn(context, function next () {
-      return dispatch(i + 1)
-}))
-````
-这段代码就很巧妙的实现了两点:
-* 将`context`一路传下去给中间件
-* 将`middleware`中的下一个中间件`fn`作为未来`next`的返回值
