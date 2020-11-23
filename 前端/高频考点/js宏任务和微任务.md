@@ -32,6 +32,70 @@ console.log(2)
 ````
 上面打印依旧是：1、2、3、4  
 async/await其实就是promise的语法糖，async函数在await之前的代码都是同步执行的，可以理解为await之前的代码属于new Promise时传入的代码，await之后的所有代码都是在Promise.then中的回调
+````
+async function aysnc1(){
+    console.log(2)
+    await console.log(3)
+    console.log(6)
+}
+
+console.log(1)
+aysnc1()
+new Promise((resolve)=>{
+   console.log(4)
+   resolve()
+}).then(()=>{
+   console.log(7)
+})
+console.log(5)
+````
+><font color="red">上述代码输出：1、2、3、4、5、6、7，await之前包含await是同步的</font>
+
+````
+async function aysnc1(){
+    console.log(2)
+    await new Promise((resolve)=>{
+       console.log(3)
+       resolve()
+    }).then(()=>{
+        console.log(8)
+     })
+    console.log(6)
+}
+
+console.log(1)
+aysnc1()
+new Promise((resolve)=>{
+   console.log(4)
+   resolve()
+}).then(()=>{
+   console.log(7)
+})
+console.log(5)
+````
+><font color="red">上述代码输出：1、2、3、4、5、8、7、6</font>
+
+````
+async function aysnc1(){
+   console.log(2)
+   await new Promise((resolve,reject)=>{
+      console.log(3)
+      //没有resolve或者reject()没有被catch，6就不会被打印
+   })
+   console.log(6)
+}
+
+console.log(1)
+aysnc1()
+new Promise((resolve)=>{
+   console.log(4)
+   resolve()
+}).then(()=>{
+   console.log(7)
+})
+console.log(5)
+````
+><font color="red">上述代码输出：1、2、3、4、5、7 没有6!!!</font>
 ## 重点
 微任务是宏任务的一个步骤，所以应当是一个宏任务先执行，然后把**当前所有的微任务逐条执行**，再执行下一个宏任务，重复这个loop,而**script标签是第一个要执行的宏任务**，所以上面示例中的promise.then会先于setTimeout执行
 ````
