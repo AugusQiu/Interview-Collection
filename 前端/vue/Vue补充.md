@@ -201,3 +201,13 @@ Object.defineProperty()劫持数组为其设置getter和setter后，调用的数
 * template先被编译成AST语法树
 * 再转化为render函数
 * 最终返回一个VNode(VNode就是Vue的虚拟DOM节点)
+### 渲染过程
+1. template转译为render函数
+2. 实例进行挂载，从根节点开始，树状结构自上而下，调用render函数，递归生成虚拟dom
+3. 对比虚拟dom，更新，渲染到真实dom
+4. 父组件内部data变化，父组件和引用data作为props的子组件重新调用render函数，生成虚拟dom，返回步骤3
+
+## vue实例和组件的区别
+官网解释：**vue组件就是可复用的vue实例**，你会发现组件里的data option必须是个function函数，因为组件可复用的特性，组件data私有，利用函数作用域隔离，互不污染  
+vue项目main.js入口文件，会指定挂载一个html文件
+ 
