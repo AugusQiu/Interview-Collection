@@ -68,8 +68,30 @@ flex-direction:row/row-reverse/column/column-reverse
 * flex-grow:瓜分父类剩余空间，父容器宽度400px,子项1宽度50px,子项2宽度70px,子项3宽度100px,剩余空间:400-50-70-100=180px.子项2flex-grow: 2，子项3flex-grow: 1，剩余空间分成3份，子项2占2份(120px)，子项3占1份(60px)。所以 子项1真实的占用空间为: 50+0 = 50px，子项2真实的占用空间为:70+120 = 190px，子项3真实的占用空间为: 100+60 = 160px
 * flex-shrink：用于吸收超出空间。容器的宽度为400px, 子项1的占用的基准空间(flex-basis)为250px，子项2占用的基准空间是150px，子项3占用基准空间是100px，总基准空间为 250+150+100=500px。容器放不下，多出来的空间需要被每个子项根据自己设置的flex-shrink 进行吸收。 子项1的flex-shrink: 1(未设置默认为1)， 子项2 flex-shrink: 2，子项3 flex-shrink: 2。子项1需要吸收的的空间为 (250* 1)/(250* 1+150* 2+100* 2) * 100 = 33.33px，子项1真实的空间为 250-33.33 = 216.67px。同理子项2吸收的空间为(150* 2)/(250* 1+150* 2+100* 2) * 100=40px，子项2真实空间为 150-40 = 110px。子项3吸收的空间为(100* 2)/(250* 1+150* 2+100* 2) * 100 = 26.67px，真实的空间为100-26.67=73.33px
 
+## flex:1和flex:auto区别
+首先flex三个属性：flex-grow、flex-shrink、flex-basis
+* flex-grow:项目的放大比例，**默认为0(存在剩余空间不放大)**
+* flex-shrink:项目的缩小比例，**默认为1(空间不足会适当缩小)**
+* flex-basis:在分配空间之前，项目所占主轴的空间，类似于width
 
+* flex:none 等价于 flex: 0 0 auto  不放大、不缩小，表现为子元素会随着内容宽度撑开
+<img src="https://img-blog.csdnimg.cn/20201012113402490.png" width="200" height="70">
 
+* flex:auto 等价于 flex: 1 1 auto
+<img src="https://img-blog.csdnimg.cn/20201012114420348.png" width="200" height="70">
+
+* flex:1 等价于 flex:1 1 0%
+<img src="https://img-blog.csdnimg.cn/20201012114101292.png" width="200" height="70">
+
+**你会发现flex:1 子项所占主轴空间都是等比例的**
+
+> flex:1和auto的区别在于：flex:auto 较长的子项会优先扩展自己的尺寸展示；flex:1则相反， 较长的子项会优先牺牲自己的尺寸
+
+* flex:initial 默认初始值
+<img src="https://img-blog.csdnimg.cn/20201012111614853.png" width="200" height="80">
+
+* flex: 0 失去弹性
+<img src="https://img-blog.csdnimg.cn/20201012113201364.png" width="200" height="100">
 
 # Grid布局
 网格布局与flex布局有相似性，但是flex是轴线布局，针对的是子元素在轴线上的排列，可以看作是一种一维布局，而Grid是将容器划分成行和列，产生各个单元格，再指定项目所在的单元格，可以看作是**二维布局**(注:容器container此处指采用网格布局的区域，项目item就是容器内部采用网格定位的子元素)  
