@@ -17,5 +17,70 @@ node.js、webpack都是基于该规范来实现的
 * 对于动态来说，原始值发生变化，import加载的值也会发生变化。不论是基本数据类型还是复杂数据类型
 * 循环加载时，ES6模块是动态引用。只要两个模块之间存在某个引用，代码就能够执行
 
-## load-es 举例
-load-es内置600多个模块，当使用 import { cloneDeep } from 'load-es' 会先全部加载一遍load-es的600个模块，再从中取出 cloneDeep模块使用。 在生产环境下使用，打包tree-shaking时才会剔除没有用到的模块
+## lodash-es 举例
+lodash-es内置600多个模块，当使用 import { cloneDeep } from 'lodash-es' 会先全部加载一遍lodash-es的600个模块，再从中取出 cloneDeep模块使用。 在生产环境下使用，打包tree-shaking时才会剔除没有用到的模块
+
+很有趣的一件事
+````js
+// lodash只引入使用一个方法，webpack会将整个库打包进去，lodash-es是具备es6模块化的版本，就不存在这个问题了
+import { cloneDeep } from 'lodash'
+````
+## Webpack Tree Shaking不会清除IIFE(立即调用函数表达式)
+````js
+// App.js
+import { cube } from './utils.js'
+console.log(cube(2))
+
+// utils.js
+var square = function(x){
+   console.log('square')
+}()
+
+export function cube(x){
+   console.log('cube')
+   return x * x * x
+}
+
+
+// 打包之后的结果，square和cube都在
+function(e,t,,n){
+    "use strict"
+    n.r(t)
+    console.log("square")
+    console.log(function(e){
+        return console.log("cube"), e * e * e
+    }(2))
+}
+````
+js解释型语言，边解释边执行，IIFE立即执行很特殊  
+### Webpack Tree shaking对于IIFE的返回函数，如果未使用会被清除
+````js
+//App.js
+import { cube } from './utils.js';
+console.log(cube(2));
+
+//utils.js
+var square = function(x) {
+  console.log('square');
+  return x * x; //这行返回，会被删除
+}();
+
+function getSquare() {
+  console.log('getSquare');
+  square();
+}
+
+export function cube(x) {
+  console.log('cube');
+  return x * x * x;
+}
+
+function(e, t, n) {
+  "use strict";
+  n.r(t);
+  console.log("square");   <= square这个IIFE内部的代码还在
+  console.log(function(e) {
+    return console.log("cube"), e * e * e  <= square这个IIFEreturn的方法因为getSquare未被调用而被删除
+  }(2))
+}
+````
