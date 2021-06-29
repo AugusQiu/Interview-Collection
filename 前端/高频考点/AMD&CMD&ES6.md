@@ -1,7 +1,7 @@
 [AMD CMD ES6](https://juejin.im/post/6844903983987834888)
 [CommonJS VS ES6](https://www.cnblogs.com/unclekeith/archive/2017/10/17/7679503.html)
 ## AMD(RequireJS)
-AMD是CommonJS规范的一个草案，异步模块加载，特点**依赖前置、提前执行，在define方法里传入的依赖模块(数组)，会在一开始就下载并执行**
+AMD是CommonJS规范的一个草案，**它异步模块加载，CommonJS是同步的**，特点**依赖前置、提前执行，在define方法里传入的依赖模块(数组)，会在一开始就下载并执行**
 ## CMD(Seajs)
 特点**依赖就近，延迟执行**，只有require的时候，依赖模块才执行
 ## CommonJS
@@ -17,14 +17,20 @@ node.js、webpack都是基于该规范来实现的
 * 对于动态来说，原始值发生变化，import加载的值也会发生变化。不论是基本数据类型还是复杂数据类型
 * 循环加载时，ES6模块是动态引用。只要两个模块之间存在某个引用，代码就能够执行
 
-## lodash-es 举例
-lodash-es内置600多个模块，当使用 import { cloneDeep } from 'lodash-es' 会先全部加载一遍lodash-es的600个模块，再从中取出 cloneDeep模块使用。 在生产环境下使用，打包tree-shaking时才会剔除没有用到的模块
 
-很有趣的一件事
+### 对比CommonJS和ES6模块
 ````js
-// lodash只引入使用一个方法，webpack会将整个库打包进去，lodash-es是具备es6模块化的版本，就不存在这个问题了
-import { cloneDeep } from 'lodash'
+// CommonJS
+let { start, exists } = require('fs')
+/*
+  let _fs = require('fs')
+  let start = _fs.start，exists = _fs.exists
+*/
+
+// ES6
+import { start, exists, readFile } from 'fs'
 ````
+上述例子，CommonJS的实质是**整体加载**fs模块生成一个_fs对象，之后再从对象中分别读取3个方法，称为“运行时加载”，而ES6模块是加载3个方法，称为“编译时加载”
 ## Webpack Tree Shaking不会清除IIFE(立即调用函数表达式)
 ````js
 // App.js
@@ -84,3 +90,10 @@ function(e, t, n) {
   }(2))
 }
 ````
+### lodash-es 举例
+很有趣的一件事
+````js
+// lodash只引入使用一个方法，webpack会将整个库打包进去，lodash-es是具备es6模块化的版本，就不存在这个问题了
+import { cloneDeep } from 'lodash'
+````
+
